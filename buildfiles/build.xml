@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     Modified from Peter Midford's build file for PDAP
+     
+     25 September 2007
+     
+     This is the build file for the Cartographer mesquite module
+                                                                                   
+     ====================================================================== -->
+<project name="cartographer" default="buildAll" basedir="..">
+    <description>
+            description
+    </description>
+	<property name="sourceDir" location="${basedir}/source"/>
+	<property name="sourceLib" location="${sourceDir}/lib"/>
+	<property name="resourcesDir" location="${basedir}/Resources"/>
+	<property name="buildDir" location="${basedir}/build"/>
+	<property name="targetDir" location= "${basedir}/targets"/>
+	<property name="mesquiteDir" location= "${basedir}/../Mesquite Project"/>
+	<path id="mesquitePath">
+    	<pathelement location="${mesquiteDir}/Mesquite_Folder"/>
+     	<pathelement location="${mesquiteDir}/jars/JSci.zip"/>
+	</path>
+	<property name="destOSX" location ="${targetDir}/OSX"/>
+	<property name="destWindows" location= "${targetDir}/Windows"/>
+	<property name="destLinux" location="${targetDir}/Linux"/>
+
+
+	
+	<!-- ================================= 
+          target: init              
+         ================================= -->
+    <target name="init"  description="--> description">
+    	<mkdir dir="${buildDir}"/>
+    	<mkdir dir="${targetDir}"/>
+    </target>
+
+	
+	<!-- ================================= 
+          target: compile    
+          Note: need to move quicktime and other target dependent stuff out somewhere (exclude?)          
+         ================================= -->
+    <target name="compile" depends="init" description="--> compiles all source">
+       <javac srcdir="${sourceDir}"
+         destdir="${buildDir}"
+         debug="off"
+         target="1.1"
+         source="1.3">
+         <classpath refid="mesquitePath"/>
+         </javac>
+    	<copy todir="${buildDir}/mesquite/cartographer/">
+			<fileset dir="${sourceDir}/mesquite/cartographer/">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+        </copy>
+	   	<copy todir="${buildDir}/mesquite/cartographer/aCartographerIntro">
+    		<fileset dir="${sourceDir}/mesquite/cartographer/aCartographerIntro">
+				<include name="**/*"/>	
+				<exclude name="**/downloads" />
+    		</fileset>
+    	</copy>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: debugCompile                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="debugCompile">
+        <javac srcdir="${sourceDir}"
+         destdir="${buildDir}"
+         classpath="jarfile"
+         debug="on"/>
+    </target>
+
+	
+	<!-- ================================= 
+          target: build              
+         ================================= -->
+    <target name="buildAll" 
+    	depends="buildOSX,buildWindows,buildLinux,buildSource" 
+    	description="--> buildsEverything">
+        
+    </target>
+
+	<!-- ================================= 
+          target: buildOSX           
+         ================================= -->
+    <target name="buildOSX" depends="compile" description="--> builds for Mac OSX">
+    	<property name="OSXClasses" location="${destOSX}/Cartographer/Put in Mesquite Directory"/>
+    	<property name="OSXExamples" location = "${destOSX}/Cartographer/Examples"/>
+    	<copy todir="${OSXClasses}">
+    		<fileset dir="${buildDir}/mesquite"/>
+    	</copy>
+    	<copy todir="${OSXExamples}">
+    		<fileset dir="${resourcesDir}/examples">
+    			<include name="**/*"/>
+    		</fileset>
+    	</copy>
+		<!-- create .dmg, based on Danny Mandel's Mesquite ant script -->
+		<exec executable="hdiutil" failonerror="false" os="Mac OS X">
+			<arg value="create" />
+			<arg value="-srcfolder" />
+			<arg value="${destOSX}/Cartographer" />
+			<arg value="-fs" />
+			<arg value="HFS+" />
+			<arg value="-format"/>
+			<arg value="UDZO"/>
+			<arg value="${destOSX}/cartographer.dmg" />
+		</exec>
+
+    </target>
+	
+	<!-- ================================= 
+          target: buildWindows              
+         ================================= -->
+    <target name="buildWindows" depends="compile" description="--> builds for Windows">
+    	<property name="WindowsClasses" location="${destWindows}/Cartographer/Put in Mesquite Directory"/>
+    	<property name="WindowsExamples" location = "${destWindows}/Cartographer/Examples"/>
+    	<copy todir="${WindowsClasses}">
+    		<fileset dir="${buildDir}/mesquite"/>
+    	</copy>
+    	<copy todir="${WindowsExamples}">
+    		<fileset dir="${resourcesDir}/examples">
+    			<include name="**/*"/>
+    		</fileset>
+    	</copy>
+    	<zip basedir="${destWindows}/Cartographer" destfile="${targetDir}/cartographer.zip">
+    	</zip>
+        
+    </target>
+
+	<!-- ================================= 
+          target: buildLinux              
+         ================================= -->
+    <target name="buildLinux" depends="compile" description="--> builds for Linux">
+    	<property name="LinuxClasses" location="${destLinux}/Cartographer/Put in Mesquite Directory"/>
+		<property name="LinuxExamples" location="${destLinux}/Cartographer/Examples"/>
+    	<copy todir="${LinuxClasses}">
+    		<fileset dir="${buildDir}"/>
+    	</copy>
+		<copy todir="${LinuxExamples}">
+			<fileset dir="${resourcesDir}/examples">
+				<include name="**/*"/>
+			</fileset>
+        </copy>
+    	<tar basedir="${destLinux}/Cartographer" destfile="${targetDir}/cartographer.tgz"
+			compression="gzip"
+    	/>
+    </target>
+	
+	<!-- ================================= 
+          target: buildSource              
+         ================================= -->
+    <target name="buildSource" depends="init" description="--> just packages the source">
+        <tar basedir="${sourceDir}" destfile="${targetDir}/cartographer_src.tgz"
+    	     excludes = "bin/**, build/**, jars/**, targets/**, target_templates/**, .project , .classpath, .fbwarnings"
+			 compression="gzip"
+        />
+    	<zip basedir="${sourceDir}" destfile="${targetDir}/cartographer_src.zip"
+    	     excludes = "**/*.zip"/>
+    </target>
+
+
+	
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+    <target name="clean" description="--> cleans up">
+    	<delete>
+			<fileset dir="${buildDir}">
+			</fileset>
+    		<fileset dir="${destOSX}">
+    	    </fileset>
+    		<fileset dir="${destWindows}">
+    		</fileset>
+    		<fileset dir="${destLinux}">
+    		</fileset>
+    		<fileset dir="${targetDir}">
+    			<include name="*.zip"/>
+    			<include name="*.tgz"/>
+    			<include name="*.dmg"/>
+    		</fileset>
+    		<fileset dir="${destOSX}">
+    			<include name="Cartographer.dmg"/>
+    		</fileset>
+		</delete>
+    </target>
+
+
+</project>

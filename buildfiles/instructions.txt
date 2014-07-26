@@ -1,0 +1,12 @@
+In Eclipse, One the build.xml file
+
+Open the outline panel on the right
+
+It will list all the targets with green bull's eyes.  
+
+Control-click on the target "Build All" you want to build and a pop up will appear with 'run as', 'build as', 'debug as'.  
+Mouse over 'run as' and a second menu will appear.  
+
+choose the first  'Ant build' in the menu
+
+Then look in the Targets folder for the results

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<mesquite>
+	<MessagesFromHome>
+		<version>1</version>
+		<currentReleaseVersion>
+			<versionString>1.31</versionString>
+			<version>131</version>
+			<downloadURL>http://mesquiteproject.org/packages/cartographer/download.html</downloadURL>
+		</currentReleaseVersion>
+	</MessagesFromHome>
+</mesquite>

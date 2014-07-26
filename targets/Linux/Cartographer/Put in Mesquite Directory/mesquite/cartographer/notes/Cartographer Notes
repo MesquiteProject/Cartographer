@@ -1,0 +1,80 @@
+
+Cartographer Notes
+
+	- Package Intro settings
+	- mark as non-prerelease
+	- documentation
+
+	problem with preferences saving?
+	
+¥¥¥¥ Assign Branch Lengths (or node values) from Great Circle Distances 
+	
+¥¥¥¥ cartographer: show number of calibration points
+¥¥¥¥ cartographer: situations in which arrow is highlighted as tool, but cursor shows calib, and acts as calib
+	
+========
+	from Wayne (May 2008):
+	
+
+I think the confusion I might have had last time is that I wasn't using mercator, 
+and thus I needed to enter parameters, and didn't realize it.  I entered 
+points but nothing seemed to happen.  I know that the text under Uncalibrated 
+Projection comments on that, but I wonder if either the projection parameters 
+dialog should show up in the opening sequence of the taxa map, or if the 
+calibration blue warning might change once 3 points are entered.
+	
+	
+	-==========
+	
+	removeCalibrationPointCursor
+=================
+
+Is there a way for a set of calibration points to be remembered across changes of projection?  
+I set the calibration points, being unsure of the projection, then changed the projection, and all the points vanished.
+
+Oh wait, when I touch on the point again, it asks if I want to remove it, even though it doesn't show.  So it's there but invisible?
+
+OK, maybe I didn't enter the parameters correctly. I wiped out all calibration points, made sure parameters were set, 
+then added points, and it seems to work.
+
+But now I tried to get a new map going, and things were going smoothly, except that after adding two calibration points 
+the calibration point tool won't add any more.  I touch on the map, and nothing happens; no dialog box shows; no warning, 
+nothing special in the log.  Attached is file in that state.  Try to add more calibration points.
+
+
+
+OK, so the bug where I can't add more calibration points to the map arises because after adding the first two, 
+it instantly tries to plot the tree (I'm using Orthographic) and the x, y pixels of some nodes are so big (>60,000) 
+that the pythagorean calculations for whether a point is in a spot overflow a 32 bit integer.
+
+I can short circuit the bug in particular but there may be other issues with pixel values so big.
+
+=======
+Still some problems with optimization, where it cycles through scores that go up and down and up and down with no end.
+
+
+=======
+	
+	
+
+post 1.0:
+	spot size confusion/standard taxon spots
+	zoom away so see small version of map
+	- remove taxon tool?
+	- collect maps, make calibration files, notes	
+
+Cartographer 2.0
+	- add Bipolar Oblique Conic Conformal
+	- General perspective
+	- legend for symbols
+	
+	- change locationreconstructor so that it uses long lats
+	- read in locality as annotation
+	- grid start and end points
+	- hide dots on otherside of world
+	- symbols and color from associated taxon block
+	- better grid lines
+	
+	- have way for taxon names to not overlap
+
+
