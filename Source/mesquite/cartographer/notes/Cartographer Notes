@@ -1,3 +1,10 @@
+Kip:  Is there a way to turn off selected "taxa" so that they do not show up on the map when using Cartographer? 
+For example I have several species that all use the same base map, but some distributions partially overlap 
+in ways that would make it best to show only a subset on any one map. Is there a way to not show the symbols at all 
+for some? I could make a separate file for each complimentary set, but would rather not maintain multiple files 
+and then try and recall which taxa are in which file.
+
+
 
 Cartographer Notes
 
@@ -7,10 +14,10 @@ Cartographer Notes
 
 	problem with preferences saving?
 	
-¥¥¥¥ Assign Branch Lengths (or node values) from Great Circle Distances 
+ï¿½ï¿½ï¿½ï¿½ Assign Branch Lengths (or node values) from Great Circle Distances 
 	
-¥¥¥¥ cartographer: show number of calibration points
-¥¥¥¥ cartographer: situations in which arrow is highlighted as tool, but cursor shows calib, and acts as calib
+ï¿½ï¿½ï¿½ï¿½ cartographer: show number of calibration points
+ï¿½ï¿½ï¿½ï¿½ cartographer: situations in which arrow is highlighted as tool, but cursor shows calib, and acts as calib
 	
 ========
 	from Wayne (May 2008):
