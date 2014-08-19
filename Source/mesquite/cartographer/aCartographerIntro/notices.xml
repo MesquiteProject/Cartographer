@@ -3,9 +3,27 @@
 	<MessagesFromHome>
 		<version>1</version>
 		<currentReleaseVersion>
-			<versionString>1.31</versionString>
-			<version>131</version>
-			<downloadURL>http://mesquiteproject.org/packages/cartographer/download.html</downloadURL>
+			<versionString>1.4</versionString>
+			<version>140</version>
+			<downloadURL>http://mesquiteproject.org/packages/cartographer/manual/download.html</downloadURL>
 		</currentReleaseVersion>
+		<notice>
+			<forPackageVersionEqualOrLess>132</forPackageVersionEqualOrLess>
+			<messageType>update</messageType>
+			<identity>cartographer</identity>
+			<packageName>Cartographer 1.4</packageName>
+			<explanation><![CDATA[This is a critical update for Cartographer, a Mesquite package for mapping. This version is compatable with Version 3.0 of Mesquite, whereas earlier versions are not. ]]>
+			</explanation>
+			<noticeNumber>03</noticeNumber>
+			<updateVersion>03</updateVersion>
+			<install>
+				<location>mesquite</location>
+				<file>chromaseq</file>
+				<url>https://github.com/MesquiteProject/Cartographer/releases/download/1.4/Cartographer.1.4.zip</url>
+				<treatment>unzip</treatment>
+				<updateVersion>003</updateVersion>
+			</install>
+		</notice>
+		
 	</MessagesFromHome>
 </mesquite>
