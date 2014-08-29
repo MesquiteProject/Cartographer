@@ -3,7 +3,11 @@
 <html><!-- #BeginTemplate "/Templates/standard.dwt" --><!-- DW6 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=">
-<!-- #BeginEditable "doctitle" -->   <title>Mesquite Cartographer Tools</title><!-- #EndEditable -->
+<!-- #BeginEditable "doctitle" -->
+   
+<title>Mesquite Cartographer Tools</title>
+
+<!-- #EndEditable -->
 <link rel="stylesheet" href="styles/mesquitePackage.css" type="text/css">
 <!-- #BeginEditable "head" --><!-- #EndEditable -->
 </head>
@@ -13,15 +17,90 @@
 <div id="masthead">
   <div id="banner"><img src="splash.gif" width="164" height="64"></div>
   <div id="mainTitle"><font id="packageName"><b>Cartographer</b></font><BR>
-  <font id="version">Version 1.4<br>
-  19 August 2014</font><BR>
+  <font id="version">Version 1.41<br>
+  29 August 2014</font><BR>
          David R. Maddison and Wayne P. Maddison</div>
   <div id="subtitle"><!-- #BeginEditable "subtitle" --><font size="5" face="Georgia, Times New Roman, Times, serif"><em>Tools</em></font><!-- #EndEditable --></div>
  
 </div>
 <div>
 <!-- end masthead -->
-<div id="content"><!-- #BeginEditable "content" -->            <p>Cartographer has a number of tools that are present in the taxon or tree window:</p><table width="100%" border="0">  <tr>    <td width="9%"><div align="center"><strong>Tool</strong></div></td>    <td width="28%"><font face="Trebuchet MS"><strong>Name</strong></font></td>    <td width="63%"><strong>Description</strong></td>  </tr>  <tr>    <td><div align="center"><img src="images/longLatTool.gif" width="29" height="28"></div></td>    <td><a href="#latLongTool">L<font face="Trebuchet MS">atitude-Longitude Tool</font></a></td>    <td>Shows the l<font face="Trebuchet MS">atitude and longitude of the tool's        location.</font></td>  </tr>  <tr>    <td><div align="center"><img src="images/searchWebTool.gif" width="26" height="26"></div></td>    <td><a href="#searchWebTool">Search Web <font face="Trebuchet MS">Tool</font></a></td>    <td>Opens a web browser <font face="Trebuchet MS">and shows a closeup of</font> the      location touched <font face="Trebuchet MS">in a geographic web site (e.g.,      TerraServer, Topozone, MapQuest)</font></td>  </tr>  <tr>    <td><div align="center"><img src="images/addTaxonTool.gif" width="26" height="26"></div></td>    <td><a href="#addTaxonTool">Add Taxon Tool</a></td>    <td>Adds a new taxon at the touched loca<font face="Trebuchet MS">tion</font></td>  </tr>  <tr>    <td><div align="center"><img src="images/moveTaxonTool.gif" width="26" height="26"></div></td>    <td><a href="#moveTaxonTool">Move Taxon Tool</a></td>    <td>Moves the loc<font face="Trebuchet MS">ation of a taxon's dot or symbol</font></td>  </tr>  <tr>    <td><div align="center"><img src="images/calibrateTool.gif" width="26" height="26"></div></td>    <td><a href="#calibrationTool">Calibrat<font face="Trebuchet MS">ion Tool</font></a></td>    <td><font face="Trebuchet MS">Adds or removes calibration points</font></td>  </tr></table>            <p>&nbsp;</p>            <H3><A name=latLongTool id="latLongTool"></A>Latitude-Longitude              Tool</H3>            <P>When plotting taxa or trees on a map, the Latitude-Longitude Tool              (<img src="images/longLatTool.gif" width="29" height="28">)  will appear in the tool palette of the window. This tool, when moved over  the  map, will report in the explanation area at the bottom of the window the latitude  and longitude of the cursor. </P>            <CENTER>            </CENTER><H3><A name=searchWebTool id="searchWebTool"></A>Search Web Tool</H3><P>The Search Web Tool (<img src="images/searchWebTool.gif" width="26" height="26">),  when touched on the map, will open your browser and show you a close-up of  that locality in <a href="http://maps.google.com">Google Maps</a> (the default), <a href="http://terraserver.microsoft.com/">TerraServer</a>, <a href="http://www.topozone.com/">Topozone</a>,  or <a href="http://mapquest.com">MapQuest</a> (the choice between these options is available in the popup menu  of  the tool's  button).  If you touch on the dot or symbol for a taxon, you will be taken to the exact  coordinates of that taxon. Of course, this only works within the territory  covered by each of these web sites - the United States of America for TerraServer  and Topozone, and many more countries for MapQuest and Google Maps.</P><h3><a name="addTaxonTool"></a>Add Taxon Tool</h3><P>The Add Taxon tool (<img src="images/addTaxonTool.gif" width="26" height="26">)  is available if you are plotting a map in a Taxa Window (but not in a Tree  Window). It allows you to <a href="data.html">add taxa</a>.</P><h3><a name="moveTaxonTool"></a>Move Taxon Tool</h3><P>The Move Taxon tool (<img src="images/moveTaxonTool.gif" width="26" height="26">)  is available if you are plotting a map in a Taxa Window (but not in a Tree  Window). To use it, touch on the taxon to be moved, and drag it to its new  location.</P><h3><a name="calibrationTool"></a>Calibration Tool</h3><P>The Calibration Tool (<img src="images/calibrateTool.gif" width="26" height="26">)  allows you to add or remove <a href="calibration.html#calibrationPoints">calibration  points</a>.</P><P>&nbsp;</P>            <!-- #EndEditable --></div>
+<div id="content"><!-- #BeginEditable "content" -->
+            <p>Cartographer has a number of tools that are present in the taxon or tree window:</p>
+<table width="100%" border="0">
+  <tr>
+    <td width="9%"><div align="center"><strong>Tool</strong></div></td>
+    <td width="28%"><font face="Trebuchet MS"><strong>Name</strong></font></td>
+    <td width="63%"><strong>Description</strong></td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="images/longLatTool.gif" width="29" height="28"></div></td>
+    <td><a href="#latLongTool">L<font face="Trebuchet MS">atitude-Longitude Tool</font></a></td>
+    <td>Shows the l<font face="Trebuchet MS">atitude and longitude of the tool's
+        location.</font></td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="images/searchWebTool.gif" width="26" height="26"></div></td>
+    <td><a href="#searchWebTool">Search Web <font face="Trebuchet MS">Tool</font></a></td>
+    <td>Opens a web browser <font face="Trebuchet MS">and shows a closeup of</font> the
+      location touched <font face="Trebuchet MS">in a geographic web site (e.g.,
+      TerraServer, Topozone, MapQuest)</font></td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="images/addTaxonTool.gif" width="26" height="26"></div></td>
+    <td><a href="#addTaxonTool">Add Taxon Tool</a></td>
+    <td>Adds a new taxon at the touched loca<font face="Trebuchet MS">tion</font></td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="images/moveTaxonTool.gif" width="26" height="26"></div></td>
+    <td><a href="#moveTaxonTool">Move Taxon Tool</a></td>
+    <td>Moves the loc<font face="Trebuchet MS">ation of a taxon's dot or symbol</font></td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="images/calibrateTool.gif" width="26" height="26"></div></td>
+    <td><a href="#calibrationTool">Calibrat<font face="Trebuchet MS">ion Tool</font></a></td>
+    <td><font face="Trebuchet MS">Adds or removes calibration points</font></td>
+  </tr>
+</table>
+
+            <p>&nbsp;</p>
+            <H3><A name=latLongTool id="latLongTool"></A>Latitude-Longitude
+              Tool</H3>
+            <P>When plotting taxa or trees on a map, the Latitude-Longitude Tool
+              (<img src="images/longLatTool.gif" width="29" height="28">)
+  will appear in the tool palette of the window. This tool, when moved over
+  the
+  map, will report in the explanation area at the bottom of the window the latitude
+  and longitude of the cursor. </P>
+            <CENTER>
+            </CENTER>
+<H3><A name=searchWebTool id="searchWebTool"></A>Search Web Tool</H3>
+<P>The Search Web Tool (<img src="images/searchWebTool.gif" width="26" height="26">),
+  when touched on the map, will open your browser and show you a close-up of
+  that locality in <a href="http://maps.google.com">Google Maps</a> (the default), <a href="http://bing.com/maps/">Bing Maps</a>, <a href="http://mapper.acme.com/">Acme Mapper</a>,
+  or <a href="http://mapquest.com">MapQuest</a> (the choice between these options is available in the popup menu
+  of
+  the tool's
+  button).
+  If you touch on the dot or symbol for a taxon, you will be taken to the exact
+  coordinates of that taxon. Of course, this only works within the territory
+  covered by each of these web sites - the United States of America for TerraServer
+  and Topozone, and many more countries for MapQuest and Google Maps.</P>
+<h3><a name="addTaxonTool"></a>Add Taxon Tool</h3>
+<P>The Add Taxon tool (<img src="images/addTaxonTool.gif" width="26" height="26">)
+  is available if you are plotting a map in a Taxa Window (but not in a Tree
+  Window). It allows you to <a href="data.html">add taxa</a>.</P>
+<h3><a name="moveTaxonTool"></a>Move Taxon Tool</h3>
+<P>The Move Taxon tool (<img src="images/moveTaxonTool.gif" width="26" height="26">)
+  is available if you are plotting a map in a Taxa Window (but not in a Tree
+  Window). To use it, touch on the taxon to be moved, and drag it to its new
+  location.</P>
+<h3><a name="calibrationTool"></a>Calibration Tool</h3>
+<P>The Calibration Tool (<img src="images/calibrateTool.gif" width="26" height="26">)
+  allows you to add or remove <a href="calibration.html#calibrationPoints">calibration
+  points</a>.</P>
+<P>&nbsp;</P>
+            <!-- #EndEditable --></div>
 <!--end content -->
 <div id="navBar">
   <div id="sectionLinks">
