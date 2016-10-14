@@ -94,8 +94,8 @@ public class CalibrationPoint {
 	/*.................................................................................................................*/
 	public void drawPoint(Graphics g, int margin) {
 		g.setColor(Color.cyan);
-		int X = x.getIntValue()+margin;
-		int Y = y.getIntValue()+margin;
+		int X = (int)(x.getDoubleValue()*projectionTask.taxaDisplay.getRescaleValue())+margin;
+		int Y = (int)(y.getDoubleValue()*projectionTask.taxaDisplay.getRescaleValue())+margin;
 		g.drawLine(X-crossSize,Y-1,X+crossSize,Y-1);
 		g.drawLine(X-1,Y-crossSize,X-1,Y+crossSize);
 		g.drawLine(X-crossSize,Y+1,X+crossSize,Y+1);
@@ -107,6 +107,8 @@ public class CalibrationPoint {
 		StringInABox.drawStringIfNotBlank(g, "("+latitude+", " + longitude + ")", X+6,Y-5);
 		g.setColor(Color.blue);
 		StringInABox.drawStringIfNotBlank(g, "("+latitude+", " + longitude + ")", X+5,Y-6);
+		System.out.println("("+x+", " + y + ")");
+		System.out.println("   ("+latitude+", " + longitude + ")");
 
 	}
 }
