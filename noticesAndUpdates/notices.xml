@@ -17,7 +17,7 @@
 			</message>
 		</notice>
 		<currentReleaseVersion>
-			<versionString>1.5</versionString>
+			<versionString>1.50</versionString>
 			<version>150</version>
 			<downloadURL>http://mesquiteproject.org/packages/cartographer/manual/download.html</downloadURL>
 		</currentReleaseVersion>
@@ -26,7 +26,7 @@
 			<messageType>update</messageType>
 			<identity>cartographer</identity>
 			<packageName>Cartographer 1.5</packageName>
-			<explanation><![CDATA[This is an update for Cartographer, a Mesquite package for mapping. This version is compatible with Version 3.2 of Mesquite, whereas earlier versions are not. It also provides several new features. ]]>
+			<explanation><![CDATA[This is an update for Cartographer, a Mesquite package for mapping. This version is compatible with Version 3.2 of Mesquite, whereas earlier versions are not. It also provides several new features, most importantly a Scale to Fit option for maps. ]]>
 			</explanation>
 			<noticeNumber>04</noticeNumber>
 			<updateVersion>04</updateVersion>
