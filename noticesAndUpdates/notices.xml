@@ -4,40 +4,40 @@
 		<version>1</version>
 		<notice> <!-- this is if you have an old version of Mesquite and an old version of Cartographer>
 			<forBuildNumberEqualOrLess>797</forBuildNumberEqualOrLess> <!-- this refers to Mesquite build, e.g. for compatibility -->
-			<forPackageVersionEqualOrLess>141</forPackageVersionEqualOrLess>
+			<forPackageVersionEqualOrLess>150</forPackageVersionEqualOrLess>
 			<noticeNumber>04</noticeNumber>
 			<messageType>alert</messageType>
 			<identity>Cartographer</identity>
-			<updateVersion>04</updateVersion>
+			<updateVersion>05</updateVersion>
 			<packageName>Cartographer version 1.5</packageName>
 			<message>
 			<![CDATA[<img src="http://mesquiteproject.org/packages/cartographer/splash.gif"><p>
-			In order to install Cartographer 1.5, you need to first update to <b>Mesquite version 3.2</b>.  
+			In order to install Cartographer 1.51, you need to first update to <b>Mesquite version 3.2</b>.  
 			You can get Mesquite 3.2 at https://mesquiteproject.wikispaces.com/Installation
 			]]>
 			</message>
 		</notice>
 		<currentReleaseVersion>
-			<versionString>1.50</versionString>
-			<version>150</version>
+			<versionString>1.51</versionString>
+			<version>151</version>
 			<downloadURL>http://mesquiteproject.org/packages/cartographer/manual/download.html</downloadURL>
 		</currentReleaseVersion>
 		<notice>  <!-- this is if you have a new version of Mesquite but an old version of Cartographer>
 			<forBuildNumberEqualOrGreater>797</forBuildNumberEqualOrGreater> <!-- this refers to Mesquite build, e.g. for compatibility -->
-			<forPackageVersionEqualOrLess>141</forPackageVersionEqualOrLess>
+			<forPackageVersionEqualOrLess>150</forPackageVersionEqualOrLess>
 			<messageType>update</messageType>
 			<identity>cartographer</identity>
-			<packageName>Cartographer 1.5</packageName>
+			<packageName>Cartographer 1.51</packageName>
 			<explanation><![CDATA[This is an update for Cartographer, a Mesquite package for mapping. This version is compatible with Version 3.2 of Mesquite, whereas earlier versions are not. It also provides several new features, most importantly a Scale to Fit option for maps. ]]>
 			</explanation>
-			<noticeNumber>04</noticeNumber>
-			<updateVersion>04</updateVersion>
+			<noticeNumber>05</noticeNumber>
+			<updateVersion>05</updateVersion>
 			<install>
 				<location>mesquite</location>
 				<file>cartographer</file>
-				<url>https://github.com/MesquiteProject/Cartographer/releases/download/1.5/cartographer.1.5.zip</url>
+				<url>https://github.com/MesquiteProject/Cartographer/releases/download/1.51/cartographer.1.51.zip</url>
 				<treatment>unzip</treatment>
-				<updateVersion>004</updateVersion>
+				<updateVersion>005</updateVersion>
 			</install>
 		</notice>
 		
