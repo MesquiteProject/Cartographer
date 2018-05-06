@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/CartographerTemplate.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Calibration</title>
+<!-- InstanceEndEditable -->
+
+<![endif]--><!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.thrColFixHdr #sidebar2, .thrColFixHdr #sidebar1 { padding-top: 30px; }
+.thrColFixHdr #mainContent { zoom: 1; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]-->
+
+<style type="text/css">
+<!--
+-->
+</style>
+<link href="CSS/mesquitePackage.css" rel="stylesheet" type="text/css" />
+<link href="SpryAssets/SpryCollapsiblePanel.css" rel="stylesheet" type="text/css" />
+
+<script src="SpryAssets/SpryCollapsiblePanel.js" type="text/javascript"></script>
+<script type="text/javascript" src="SpryAssets/SpryURLUtils.js"></script>
+<script type="text/javascript" src="javascript/mesquiteCartographer.js"></script>
+
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+</head>
+
+<body bgcolor="#f4f0e2" class="thrColFixHdr" >
+
+<div id="container">
+  <div id="header">
+    <table width="100%" border="0" cellpadding="4">
+  <tr>
+    <td width="51%"><img src="images/cartographerBanner.jpg" width="395" height="110" /></td>
+    <td width="33%" align="right"><div id="subtitle"><!-- InstanceBeginEditable name="subtitle" -->Calibration<!-- InstanceEndEditable --></div></td>
+    <td width="2%">&nbsp;</td>
+    <td width="14%">Version 1.52<br />
+      5 May 2018<br /></td>
+  </tr>
+</table>
+
+</div>
+  
+  
+<div id="sidebar1">
+  
+  
+  
+  
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('index.html')">Home</a>
+  </div>
+  <div id="GettingStartedPanel" class="CollapsiblePanel">
+    <div class="CollapsiblePanelTab" tabindex="0">Getting Started ˇ</div>
+    <div class="CollapsiblePanelContent" style="display: block">
+  		<table width="100%" border="0" cellpadding="1">
+  			<tr>
+		  <td><a href="javascript:pageLink('download.html');">Download &amp; Installation</a></td></tr>
+  			<tr><td><a href="javascript:pageLink('gettingStarted.html');">Quick Start</a></td></tr>
+		</table>
+    </div>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('mapSources.html')">Sources of Maps</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('projections.html')">Projections</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('calibration.html')">Calibration</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('addingData.html')">Adding Data Points</a></div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('ancestralLocations.html')">Ancestral Locations</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('taxonSymbols.html')">Symbols to be Plotted</a></div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('tools.html')">Tools</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('displayOptions.html')">Display Options</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('graphicsFiles.html')">Graphics Files</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('googleEarth.html')">Google Earth</a>
+  </div>
+<div id="CreditPanel" class="CollapsiblePanel">
+  <div class="CollapsiblePanelTab" tabindex="0">Citation & Credit ˇ</div>
+  <div class="CollapsiblePanelContent" style="display: block">
+  		<table width="100%" border="0" cellpadding="1">
+  			<tr><td><a href="javascript:pageLink('citation.html');">How to Cite</a></td></tr>
+  			<tr><td><a href="javascript:pageLink('acknowledgements.html');">Acknowledgements</a></td></tr>
+		</table>
+  </div>
+</div>
+
+
+<h3>&nbsp;</h3>
+  <!-- end #sidebar1 --></div>
+
+  <div id="mainContent">
+    
+<!-- InstanceBeginEditable name="content" -->
+    
+<h2>Calibration</h2>
+	  <p>Before a map image can be used in Cartographer, the map must be
+              calibrated and the parameters of the projection specified. In particular,
+              Cartographer cannot plot points unless:</p>
+            <UL>
+      <li>At least three points of known latitude and longitude (<a href="#calibrationPoints">calibration
+        points</a>) are specified.</li>
+      <li><a href="#parameters">Parameter values</a> for the map's projection are specified. There is one projection (Mercator) that does not require parameter values, but this is an exception. </li>
+      </UL>
+
+<p>If this is not done, Cartographer will display &quot;Uncalibrationed Projection&quot;
+  in large letters on the map.</p>
+
+<h3><a name="calibrationPoints"></a>Calibration Points</h3>
+<h4>Adding and deleting calibration points</h4>
+<p>To add calibration points, use the calibration tool (<img src="images/calibrateTool.gif" width="26" height="26">).
+    Touch this tool on the map at a known location, and enter into the dialog
+    box that appears the latitude and longitude of that location. Do this for
+    at least
+    three locations (ideally more) that are as far apart as you can manage both
+    in latitude and longitude. </p>
+<p>If you wish to remove a single calibration point, touch the calibration point
+  on the point. If you wish to remove all calibration points, choose Plot&gt;Calibration
+  Points&gt;Discard All Calibration Points. </p>
+<h4>Showing or hiding calibration points</h4>
+<p>By default, calibration points are visible on your map. To hide them, uncheck
+  Show Calibration Points from the Calibration Points submenu of the Plot menu.</p>
+<h4>Saving calibration points to a file</h4>
+<p>To save calibration points to a file, choose Save Calibration Points from
+  the Calibration Points submenu of the Plot menu. This is very useful to do if
+  you have defined calibration points but then wish to
+  do
+  something
+  that
+  will
+  automatically
+  discard them, such as switch the projection chosen for the map.</p>
+<h4>Loading calibration points from a file</h4>
+<p>If calibration points have been previously saved to a file, that file can
+  be loaded into Mesquite to set the calibration points to those specified in
+  the file using Plot&gt;Calibration Points&gt;Load Calibration Points.</p>
+<h3><a name="parameters"></a>Parameter values</h3>
+<p>In addition to calibration points, most map projections will
+    require some values for parameters specific for that map projection. For
+  example, a
+    Lambert
+    Azimuthal Equal-Area Projection has two parameters, a standard latitude and
+    a standard longitude. If you know these values for your map, you can enter
+    them in the Plot&gt;Projection Parameters dialog box. If you don't know the
+  values, you can ask Mesquite to estimate them for you.</p>
+<h4>Asking Mesquite to estimate the parameter values</h4>
+<p>If you do not know the parameter values for your map, but have entered at
+  least three calibration points, then Mesquite can attempt to estimate the parameter
+  values for you. Choose &quot;Optimize Parameters&quot; from the Plot menu. (&quot;Optimize Parameters&quot; is not available for those projections that do not have projection parameters). Cartographer
+  will calculate how closely the specified locations on the map of the calibration
+  points match the expected locations based upon the projection. Varying the
+  parameter values will increase or decrease the match; the Optimize Parameters
+  command searches for the parameter values for which the match is closest. </p>
+<table width="75%" border="0">
+  <tr>
+    <td><div align="center"><img src="images/opt1.jpg" width="311" height="300"></div></td>
+    <td><div align="center"><img src="images/opt2.jpg" width="311" height="300"></div></td>
+  </tr>
+  <tr>
+    <td><div align="center"><em>Projection (with grid) before optimizing parameters</em></div></td>
+    <td><div align="center"><em>Projection after optimizing parameters</em></div></td>
+  </tr>
+</table>
+<p>This Mesquite will not optimize parameters of the ellipsoid if an ellipsoid form
+  is chosen.</p>
+<p>One way to see how reasonable your map settings are is examination of the
+  latitude-longitude grid (which can be turned on with Plot&gt;Show Grid). </p>
+<h4>If Cartographer can't optimize parameter values</h4>
+<p> If
+  Cartographer can't find a close match between the specified locations of the calibration points and their expected locations, it will warn you. There are several possible causes of the mismatch:</p>
+<ol>
+  <li>You have chosen the wrong projection.</li>
+  <li>Your calibration points are in the wrong locations.</li>
+  <li>There are problems with the optimization process. On rare occasion we have noticed that the optimization routines make little progress, perhaps because of unusual properties of the projection. Sometimes asking Mesquite to optimize the parameters a second time will help. </li>
+</ol>
+<CENTER>
+  <h3 align="left">Saving parameter &amp; calibration information to a file</h3>
+  <p align="left">Once you have successfully added calibration points and set
+    parameter values, you may wish to save this information to a file so that
+    you can easily re-use the map in other contexts in Mesquite. To do this choose
+    Save Parameters &amp; Calibration from the Plot menu.</p>
+  <h3 align="left">Loading parameter &amp; calibration information from a file</h3>
+  <p align="left">To re-apply parameter and calibration information that has
+    been saved to a file, load the file into Mesquite using Plot&gt;Load Parameters
+    &amp; Calibration.</p>
+  <h3 align="left">&nbsp;</h3>
+  </CENTER>
+
+<!-- InstanceEndEditable -->
+
+    
+    
+    </div>
+	<!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats --><br class="clearfloat" />
+  <div id="footer">
+    <p> ©2018 David R. Maddison &amp; Wayne P. Maddison</p>
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+
+<script type="text/javascript">
+<!--
+
+var GettingStartedPanel = null;
+var CreditPanel = null;
+
+if (qsParm['GettingStartedPanel']=='open')
+ 	GettingStartedPanel = new Spry.Widget.CollapsiblePanel("GettingStartedPanel", {contentIsOpen: true});
+else
+ 	GettingStartedPanel = new Spry.Widget.CollapsiblePanel("GettingStartedPanel", {contentIsOpen: false});
+
+if (qsParm['CreditPanel']=='open')
+ 	CreditPanel = new Spry.Widget.CollapsiblePanel("CreditPanel", {contentIsOpen: true});
+else
+ 	CreditPanel = new Spry.Widget.CollapsiblePanel("CreditPanel", {contentIsOpen: false});
+
+
+//-->
+</script>
+</body>
+<!-- InstanceEnd --></html>

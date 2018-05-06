@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/CartographerTemplate.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Cartographer and Google Earth</title>
+<!-- InstanceEndEditable -->
+
+<![endif]--><!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.thrColFixHdr #sidebar2, .thrColFixHdr #sidebar1 { padding-top: 30px; }
+.thrColFixHdr #mainContent { zoom: 1; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]-->
+
+<style type="text/css">
+<!--
+-->
+</style>
+<link href="CSS/mesquitePackage.css" rel="stylesheet" type="text/css" />
+<link href="SpryAssets/SpryCollapsiblePanel.css" rel="stylesheet" type="text/css" />
+
+<script src="SpryAssets/SpryCollapsiblePanel.js" type="text/javascript"></script>
+<script type="text/javascript" src="SpryAssets/SpryURLUtils.js"></script>
+<script type="text/javascript" src="javascript/mesquiteCartographer.js"></script>
+
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+</head>
+
+<body bgcolor="#f4f0e2" class="thrColFixHdr" >
+
+<div id="container">
+  <div id="header">
+    <table width="100%" border="0" cellpadding="4">
+  <tr>
+    <td width="51%"><img src="images/cartographerBanner.jpg" width="395" height="110" /></td>
+    <td width="33%" align="right"><div id="subtitle"><!-- InstanceBeginEditable name="subtitle" -->Google Earth<!-- InstanceEndEditable --></div></td>
+    <td width="2%">&nbsp;</td>
+    <td width="14%">Version 1.52<br />
+      5 May 2018<br /></td>
+  </tr>
+</table>
+
+</div>
+  
+  
+<div id="sidebar1">
+  
+  
+  
+  
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('index.html')">Home</a>
+  </div>
+  <div id="GettingStartedPanel" class="CollapsiblePanel">
+    <div class="CollapsiblePanelTab" tabindex="0">Getting Started ˇ</div>
+    <div class="CollapsiblePanelContent" style="display: block">
+  		<table width="100%" border="0" cellpadding="1">
+  			<tr>
+		  <td><a href="javascript:pageLink('download.html');">Download &amp; Installation</a></td></tr>
+  			<tr><td><a href="javascript:pageLink('gettingStarted.html');">Quick Start</a></td></tr>
+		</table>
+    </div>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('mapSources.html')">Sources of Maps</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('projections.html')">Projections</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('calibration.html')">Calibration</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('addingData.html')">Adding Data Points</a></div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('ancestralLocations.html')">Ancestral Locations</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('taxonSymbols.html')">Symbols to be Plotted</a></div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('tools.html')">Tools</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('displayOptions.html')">Display Options</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('graphicsFiles.html')">Graphics Files</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('googleEarth.html')">Google Earth</a>
+  </div>
+<div id="CreditPanel" class="CollapsiblePanel">
+  <div class="CollapsiblePanelTab" tabindex="0">Citation & Credit ˇ</div>
+  <div class="CollapsiblePanelContent" style="display: block">
+  		<table width="100%" border="0" cellpadding="1">
+  			<tr><td><a href="javascript:pageLink('citation.html');">How to Cite</a></td></tr>
+  			<tr><td><a href="javascript:pageLink('acknowledgements.html');">Acknowledgements</a></td></tr>
+		</table>
+  </div>
+</div>
+
+
+<h3>&nbsp;</h3>
+  <!-- end #sidebar1 --></div>
+
+  <div id="mainContent">
+    
+<!-- InstanceBeginEditable name="content" -->
+	  <h2>Google Earth</h2>
+    <P>
+<font face="Trebuchet MS">The Export menu item allows you to export a matrix of geographic coordinates to a Google Earth KML file, which you can then open in <a href="http://earth.google.com/">Google Earth</a>. 
+You can either choose to display only the individual latitude-longitude points:</font></P> <P align="center"><img src="images/googleEarthDots.jpg" width="626" height="400"></P> <P>
+<font face="Trebuchet MS">or, if a tree is displayed in a Mesquite window, you can include it:</font></P> 
+<P align="center"><img src="images/googleEarth.jpg" width="774" height="615"></P> 
+<P><font face="Trebuchet MS">This tree diagram is modeled after the work of Bill Piel (see the <a href="http://www.treebase.org/getrees/">Experimental Google Earth Phylogenetic Tree Server</a>), with some of the modifications suggested by Rod Page on his <a href="http://iphylo.blogspot.com/2007/06/google-earth-phylogenies.html">iPhylo blog</a>.</font> 
+</P> <P><font face="Trebuchet MS">The geographic location of ancestral nodes is reconstructed as the midpoint of the Great Circle line that joins two immediate descendents of that node (if there are
+                two descendents) or the centroid of the descendents if there
+                are
+                more than two
+                descendents. 
+The ancestral locations should thus not necessarily be considered biogeographically meaningful - they are drawn where they are primarily for aesthetic reasons.</font></P>
+<P><font face="Trebuchet MS">For points far-separated on the Earth, Cartographer draws lines on the Great Circle that joins those points, as shown in the following image:</font></P>
+<P align="center"><img src="images/greatCircle.jpg" width="645" height="300"></P>
+<P>To create such a Google Earth file, choose File&gt;Export, and in the list that is presented, choose Export To Google Earth. You will have the options to do the following:</P>
+<ul> <ul> <li>include a tree in the Google Earth display</li>
+<li> <div align="left">draw the branches diagonally, or as a &quot;square tree&quot;. The tree shown above is a &quot;square tree&quot;, the one below has diagonal branches:<br>
+<img src="images/googleDiagonal.jpg" width="324" height="400"> </div></li>
+<li>draw the tree with branches proportional to branch lengths stored in the tree (this is what is often called a &quot;phylogram&quot;) or with branches not proportional. 
+The &quot;phylogram&quot; option will only work if branch lengths are available.</li> 
+<li>draw the terminal taxa either on the ground, or floating above the ground, at the end of their branches (which may be above the ground if branch lengths are stored in the tree).
+The tree shown immediately above has the terminal taxa on the ground.</li>
+<li>if the terminal taxa are above the ground, then you have the option of showing a connecting from the ground to any above-ground terminal taxa. 
+The image on the left shows a tree with those connections; the image on the right shows a tree without those connections:<br>
+<img src="images/extrude.jpg" width="420" height="400"> <img src="images/noExtrude.jpg" width="420" height="400"> </li>
+<li>show any selected branches in a different color (e.g., the orange branches in some of the above figures)</li>
+<li>adjust the colors of the unselected and selected branches. The branch colors are to be entered as 8-digit hexadecimal numbers. 
+The first two digits are the transparency setting, with &quot;ff&quot; being fully opaque, and &quot;00&quot; being fully transparent.
+The next six digits are the color, in  web format. &quot;ffffff&quot; is while, &quot;000000&quot; is black, ff0000 is blue, 00ff00 is green, and 0000ff is red. 
+Thus, 7700ffff is a partly transparent yellow.</li>
+<li>adjust the width, in pixels, of unselected and selected branches.</li>
+<li>change the height of the root node above the Earth.<font face="Trebuchet MS"></font></li></ul></ul>
+<font face="Trebuchet MS"><P>&nbsp;</P>
+</font>
+
+    
+<!-- InstanceEndEditable -->
+
+    
+    
+    </div>
+	<!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats --><br class="clearfloat" />
+  <div id="footer">
+    <p> ©2018 David R. Maddison &amp; Wayne P. Maddison</p>
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+
+<script type="text/javascript">
+<!--
+
+var GettingStartedPanel = null;
+var CreditPanel = null;
+
+if (qsParm['GettingStartedPanel']=='open')
+ 	GettingStartedPanel = new Spry.Widget.CollapsiblePanel("GettingStartedPanel", {contentIsOpen: true});
+else
+ 	GettingStartedPanel = new Spry.Widget.CollapsiblePanel("GettingStartedPanel", {contentIsOpen: false});
+
+if (qsParm['CreditPanel']=='open')
+ 	CreditPanel = new Spry.Widget.CollapsiblePanel("CreditPanel", {contentIsOpen: true});
+else
+ 	CreditPanel = new Spry.Widget.CollapsiblePanel("CreditPanel", {contentIsOpen: false});
+
+
+//-->
+</script>
+</body>
+<!-- InstanceEnd --></html>
