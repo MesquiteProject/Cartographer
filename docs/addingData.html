@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/CartographerTemplate.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Adding Data</title>
+<!-- InstanceEndEditable -->
+
+<![endif]--><!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.thrColFixHdr #sidebar2, .thrColFixHdr #sidebar1 { padding-top: 30px; }
+.thrColFixHdr #mainContent { zoom: 1; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]-->
+
+<style type="text/css">
+<!--
+-->
+</style>
+<link href="CSS/mesquitePackage.css" rel="stylesheet" type="text/css" />
+<link href="SpryAssets/SpryCollapsiblePanel.css" rel="stylesheet" type="text/css" />
+
+<script src="SpryAssets/SpryCollapsiblePanel.js" type="text/javascript"></script>
+<script type="text/javascript" src="SpryAssets/SpryURLUtils.js"></script>
+<script type="text/javascript" src="javascript/mesquiteCartographer.js"></script>
+
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+</head>
+
+<body bgcolor="#f4f0e2" class="thrColFixHdr" >
+
+<div id="container">
+  <div id="header">
+    <table width="100%" border="0" cellpadding="4">
+  <tr>
+    <td width="51%"><img src="images/cartographerBanner.jpg" width="395" height="110" /></td>
+    <td width="33%" align="right"><div id="subtitle"><!-- InstanceBeginEditable name="subtitle" -->Adding Data<!-- InstanceEndEditable --></div></td>
+    <td width="2%">&nbsp;</td>
+    <td width="14%">Version 1.52<br />
+      5 May 2018<br /></td>
+  </tr>
+</table>
+
+</div>
+  
+  
+<div id="sidebar1">
+  
+  
+  
+  
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('index.html')">Home</a>
+  </div>
+  <div id="GettingStartedPanel" class="CollapsiblePanel">
+    <div class="CollapsiblePanelTab" tabindex="0">Getting Started ˇ</div>
+    <div class="CollapsiblePanelContent" style="display: block">
+  		<table width="100%" border="0" cellpadding="1">
+  			<tr>
+		  <td><a href="javascript:pageLink('download.html');">Download &amp; Installation</a></td></tr>
+  			<tr><td><a href="javascript:pageLink('gettingStarted.html');">Quick Start</a></td></tr>
+		</table>
+    </div>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('mapSources.html')">Sources of Maps</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('projections.html')">Projections</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('calibration.html')">Calibration</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('addingData.html')">Adding Data Points</a></div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('ancestralLocations.html')">Ancestral Locations</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('taxonSymbols.html')">Symbols to be Plotted</a></div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('tools.html')">Tools</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('displayOptions.html')">Display Options</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('graphicsFiles.html')">Graphics Files</a>
+  </div>
+  <div id="NonCollapsiblePanel">
+    <a href="javascript:pageLink('googleEarth.html')">Google Earth</a>
+  </div>
+<div id="CreditPanel" class="CollapsiblePanel">
+  <div class="CollapsiblePanelTab" tabindex="0">Citation & Credit ˇ</div>
+  <div class="CollapsiblePanelContent" style="display: block">
+  		<table width="100%" border="0" cellpadding="1">
+  			<tr><td><a href="javascript:pageLink('citation.html');">How to Cite</a></td></tr>
+  			<tr><td><a href="javascript:pageLink('acknowledgements.html');">Acknowledgements</a></td></tr>
+		</table>
+  </div>
+</div>
+
+
+<h3>&nbsp;</h3>
+  <!-- end #sidebar1 --></div>
+
+  <div id="mainContent">
+    
+<!-- InstanceBeginEditable name="content" -->
+                <h2>Adding Data points</h2>
+	  
+    <h3>Geographic Data matrices</h3>
+            <P>The core data for plotting must in the the form latitude/longitude data  in a matrix of Geographic
+              Data type. Latitude is the first character, longitude the second.</P>
+            <P>Data must be in
+                decimal degrees (e.g., 34.1286), <strong><em>not</em></strong> in any of the older formats
+              (e.g., degrees with decimal minutes [34&deg; 07.716'], or degrees, minutes, and seconds [34&deg; 07' 43&quot;]).
+              Do not include the hemisphere (e.g., W or E); instead, you should
+              use the convention that latitudes in the northern hemisphere are
+              positive,
+              in the
+              southern
+              hemisphere
+              negative,
+              and longitudes in the western hemisphere are negative, in the eastern
+                hemisphere positive. Thus, the latitude and longitude of one
+              point
+                in North America is (43.000, -81.254). </P>
+            <P>You can add new points to your map by adding new taxa to your
+              matrix and then manually entering the latitude and longitude values,
+              or you can use the <a href="#addTaxonTool">Add Taxon Tool</a> (if you are using a Taxa Window) or <a href="#importingData">import latitude/longitude
+              values</a> stored in an XML file.</P>
+            <h3><a name="addTaxonTool"></a>Add Taxon Tool</h3>
+            <P>The Add Taxon Tool (<img src="images/addTaxonTool.gif" width="26" height="26">)
+              is available in the Taxa Window (it is not available in the Tree
+              Window). Touching this tool on the map will cause a new taxon to
+              be created with those latitude and longitude values. A dialog box
+              will appear in which you can enter the taxon name and the group
+              to which this taxon belongs:</P>
+            <P align="center"> <img src="images/newTaxon.jpg" width="209" height="134"></P>
+            <P>If you hold down the Option key, the Add Taxon Tool will add a
+              taxon at the spot touched without asking you for a taxon name or
+              group; it will use a default taxon name and the group last set
+              in the above dialog box.</P>
+            <h3>Move Taxon Tool</h3>
+            <P>The Move Taxon Tool (<img src="images/moveTaxonTool.gif" width="26" height="26">)
+              is available in the Taxa Window (it is not available in the Tree
+              Window). With it you can move a taxon's symbol to a different locality
+              in the map; this changes the latitude and longitude values for
+              that taxon.</P>
+            <h3><a name="importingData"></a>Importing data</h3>
+            <P>You can also import hundreds of data points quickly if you can
+              put them into the appropriate XML format. For example, if you have
+              geographic data stored in a database, and can build an exporter
+              to save them to a text file with the appropriate XML tags, then
+              you can have those localities appear in Mesquite's windows. </P>
+            <P>The basic format is:</P>
+            <PRE><font size="-1">
+&lt;?xml version=1.0?&gt;
+&lt;mesquite&gt;
+	&lt;geographicDistribution&gt;
+		&lt;taxon&gt;
+			&lt;name&gt;nameOfTaxon&lt;/name&gt;
+			&lt;group&gt;nameOfTaxonGroup&lt;/group&gt;
+			&lt;longitude&gt;longitude&lt;/longitude&gt;
+			&lt;latitude&gt;latitude&lt;/latitude&gt;
+		&lt;/taxon&gt;
+	&lt;/geographicDistribution&gt;</font>
+&lt;/mesquite&gt;</PRE>
+<P>An example XML file is as follows:</P>
+            <PRE><font size="-1">
+&lt;?xml version=1.0?&gt;
+&lt;mesquite&gt;
+	&lt;geographicDistribution&gt;
+		&lt;taxon&gt;
+			&lt;name&gt;ex001&lt;/name&gt;
+			&lt;group&gt;species1&lt;/group&gt;
+			&lt;longitude&gt;-106.3125&lt;/longitude&gt;
+			&lt;latitude&gt;42.86667&lt;/latitude&gt;
+		&lt;/taxon&gt;
+		&lt;taxon&gt;
+			&lt;name&gt;ex002&lt;/name&gt;
+			&lt;group&gt;species1&lt;/group&gt;
+			&lt;longitude&gt;-118.11917&lt;/longitude&gt;
+			&lt;latitude&gt;46.01028&lt;/latitude&gt;
+		&lt;/taxon&gt;
+		&lt;taxon&gt;
+			&lt;name&gt;ex003&lt;/name&gt;
+			&lt;group&gt;species1&lt;/group&gt;
+			&lt;longitude&gt;-116.37361&lt;/longitude&gt;
+			&lt;latitude&gt;33.72222&lt;/latitude&gt;
+		&lt;/taxon&gt;
+		&lt;taxon&gt;
+			&lt;name&gt;ex004&lt;/name&gt;
+			&lt;group&gt;species2&lt;/group&gt;
+			&lt;longitude&gt;-119.28&lt;/longitude&gt;
+			&lt;latitude&gt;50.7003&lt;/latitude&gt;
+		&lt;/taxon&gt;
+		&lt;taxon&gt;
+			&lt;name&gt;ex005&lt;/name&gt;
+			&lt;group&gt;species2&lt;/group&gt;
+			&lt;longitude&gt;-118.90417&lt;/longitude&gt;
+			&lt;latitude&gt;46.08556&lt;/latitude&gt;
+		&lt;/taxon&gt;
+	&lt;/geographicDistribution&gt;</font>
+&lt;/mesquite&gt;</PRE>
+            <P>&nbsp;</P>
+            <P>The name of each taxon imported is stored in the &lt;name&gt;&lt;/name&gt;
+              tag, and the group to which that taxon belongs (see Taxon Symbols)
+              in &lt;group&gt;&lt;/group&gt;. If you are plotting distributions of species
+              where each dot represents specimens, then typically the &lt;name&gt;&lt;/name&gt;
+              tag will be for the specimen name or code, and the &lt;group&gt;&lt;/group&gt;
+              tag will be for the species name.</P>
+            <P>To import these data, make sure the frontmost window in Mesquite
+              is the matrix editor showing the geographic data. Then choose Import
+              Lat-Long Data from the Utilities submenu of the Matrix menu.</P>
+            <P>&nbsp;</P>
+    
+<!-- InstanceEndEditable -->
+
+    
+    
+    </div>
+	<!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats --><br class="clearfloat" />
+  <div id="footer">
+    <p> ©2018 David R. Maddison &amp; Wayne P. Maddison</p>
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+
+<script type="text/javascript">
+<!--
+
+var GettingStartedPanel = null;
+var CreditPanel = null;
+
+if (qsParm['GettingStartedPanel']=='open')
+ 	GettingStartedPanel = new Spry.Widget.CollapsiblePanel("GettingStartedPanel", {contentIsOpen: true});
+else
+ 	GettingStartedPanel = new Spry.Widget.CollapsiblePanel("GettingStartedPanel", {contentIsOpen: false});
+
+if (qsParm['CreditPanel']=='open')
+ 	CreditPanel = new Spry.Widget.CollapsiblePanel("CreditPanel", {contentIsOpen: true});
+else
+ 	CreditPanel = new Spry.Widget.CollapsiblePanel("CreditPanel", {contentIsOpen: false});
+
+
+//-->
+</script>
+</body>
+<!-- InstanceEnd --></html>
