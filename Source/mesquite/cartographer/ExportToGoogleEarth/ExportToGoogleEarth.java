@@ -387,7 +387,9 @@ public class ExportToGoogleEarth extends FileInterpreterI {
 		StringUtil.appendEndXMLTag(outputBuffer,0,"Document");
 		StringUtil.appendEndXMLTag(outputBuffer,0,"kml");
 
-		saveExportedFileWithExtension(outputBuffer, arguments, "kml");
+		MesquiteStringBuffer msb = new MesquiteStringBuffer();
+		msb.append(outputBuffer.toString());
+		saveExportedFileWithExtension(msb, arguments, "kml");
 		return true;
 	}
 
