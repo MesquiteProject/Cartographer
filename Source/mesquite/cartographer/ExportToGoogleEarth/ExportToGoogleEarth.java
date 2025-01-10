@@ -17,6 +17,10 @@ import mesquite.lib.*;
 import mesquite.cartographer.lib.*;
 import mesquite.lib.duties.FileInterpreterI;
 import mesquite.lib.duties.OneTreeSource;
+import mesquite.lib.taxa.Taxa;
+import mesquite.lib.tree.Tree;
+import mesquite.lib.ui.ProgressIndicator;
+import mesquite.lib.ui.SingleLineTextField;
 
 import java.awt.*;
 
