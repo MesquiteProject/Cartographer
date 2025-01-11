@@ -13,10 +13,14 @@ GNU Lesser General Public License.  (http://www.gnu.org/copyleft/lesser.html)
 package mesquite.cartographer.ExportToGoogleEarth;
 
 import mesquite.cont.lib.*;
+
 import mesquite.lib.*;
 import mesquite.cartographer.lib.*;
 import mesquite.lib.duties.FileInterpreterI;
 import mesquite.lib.duties.OneTreeSource;
+import mesquite.lib.taxa.*;
+import mesquite.lib.ui.*;
+import mesquite.lib.tree.*;
 
 import java.awt.*;
 
