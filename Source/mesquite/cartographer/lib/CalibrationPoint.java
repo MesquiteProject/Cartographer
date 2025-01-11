@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import mesquite.lib.MesquiteInteger;
 import mesquite.lib.MesquiteNumber;
-import mesquite.lib.ui.StringInABox;
+import mesquite.lib.StringInABox;
 
 
 /*=======================================================================*/

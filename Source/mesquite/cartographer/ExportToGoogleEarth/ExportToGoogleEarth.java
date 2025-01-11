@@ -17,10 +17,6 @@ import mesquite.lib.*;
 import mesquite.cartographer.lib.*;
 import mesquite.lib.duties.FileInterpreterI;
 import mesquite.lib.duties.OneTreeSource;
-import mesquite.lib.taxa.Taxa;
-import mesquite.lib.tree.Tree;
-import mesquite.lib.ui.ProgressIndicator;
-import mesquite.lib.ui.SingleLineTextField;
 
 import java.awt.*;
 
@@ -390,8 +386,8 @@ public class ExportToGoogleEarth extends FileInterpreterI {
 
 		StringUtil.appendEndXMLTag(outputBuffer,0,"Document");
 		StringUtil.appendEndXMLTag(outputBuffer,0,"kml");
-		MesquiteStringBuffer mOB = new MesquiteStringBuffer(outputBuffer);
-		saveExportedFileWithExtension(mOB, arguments, "kml");
+
+		saveExportedFileWithExtension(outputBuffer, arguments, "kml");
 		return true;
 	}
 

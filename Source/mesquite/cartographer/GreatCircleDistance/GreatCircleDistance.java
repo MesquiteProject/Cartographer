@@ -18,10 +18,6 @@ import java.awt.Checkbox;
 
 import mesquite.lib.*;
 import mesquite.lib.characters.*;
-import mesquite.lib.taxa.Taxa;
-import mesquite.lib.ui.ExtensibleDialog;
-import mesquite.lib.ui.MesquiteSubmenuSpec;
-import mesquite.lib.ui.RadioButtons;
 import mesquite.distance.lib.*;
 import mesquite.cont.lib.*;
 import mesquite.cartographer.lib.*;

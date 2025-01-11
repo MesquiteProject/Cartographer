@@ -1,7 +1,6 @@
 package mesquite.cartographer.lib;
 
 import mesquite.lib.*;
-import mesquite.lib.tree.Tree;
 import mesquite.cont.lib.*;
 
 /*=========================================================================*/
