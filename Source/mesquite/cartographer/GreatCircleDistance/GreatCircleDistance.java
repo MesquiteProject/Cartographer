@@ -14,16 +14,24 @@ package mesquite.cartographer.GreatCircleDistance;
 /*~~  */
 
 
-import java.awt.Checkbox;
-
-
-import mesquite.lib.*;
-import mesquite.lib.characters.*;
-import mesquite.distance.lib.*;
-import mesquite.cont.lib.*;
-import mesquite.cartographer.lib.*;
-import mesquite.lib.taxa.*;
-import mesquite.lib.ui.*;
+import mesquite.cartographer.lib.GeographicUtil;
+import mesquite.cont.lib.GeographicData;
+import mesquite.distance.lib.GeoTaxaDistFromMatrix;
+import mesquite.distance.lib.GeoTaxaDistance;
+import mesquite.distance.lib.TaxaDistance;
+import mesquite.lib.CommandChecker;
+import mesquite.lib.MesquiteBoolean;
+import mesquite.lib.MesquiteDouble;
+import mesquite.lib.MesquiteFile;
+import mesquite.lib.MesquiteInteger;
+import mesquite.lib.MesquiteMessage;
+import mesquite.lib.MesquiteModule;
+import mesquite.lib.Snapshot;
+import mesquite.lib.characters.MCharactersDistribution;
+import mesquite.lib.taxa.Taxa;
+import mesquite.lib.ui.ExtensibleDialog;
+import mesquite.lib.ui.MesquiteSubmenuSpec;
+import mesquite.lib.ui.RadioButtons;
 
 /* ======================================================================== */
 public class GreatCircleDistance extends GeoTaxaDistFromMatrix {

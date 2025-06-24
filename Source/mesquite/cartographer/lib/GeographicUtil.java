@@ -1,7 +1,7 @@
 package mesquite.cartographer.lib;
 
-import mesquite.cont.lib.*;
-import mesquite.lib.*;
+import mesquite.cont.lib.GeographicData;
+import mesquite.lib.MesquiteDouble;
 
 
 public class GeographicUtil {

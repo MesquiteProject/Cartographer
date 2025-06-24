@@ -1,12 +1,11 @@
 package mesquite.cartographer.lib;
 
 import java.awt.Color;
-
 import java.awt.Graphics;
 
 import mesquite.lib.MesquiteInteger;
 import mesquite.lib.MesquiteNumber;
-import mesquite.lib.ui.*;
+import mesquite.lib.ui.StringInABox;
 
 
 /*=======================================================================*/
