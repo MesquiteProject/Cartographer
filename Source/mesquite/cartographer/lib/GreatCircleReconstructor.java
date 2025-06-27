@@ -1,7 +1,10 @@
 package mesquite.cartographer.lib;
 
-import mesquite.lib.*;
-import mesquite.cont.lib.*;
+import mesquite.cont.lib.ContinuousState;
+import mesquite.lib.Double2DArray;
+import mesquite.lib.DoubleArray;
+import mesquite.lib.MesquiteMessage;
+import mesquite.lib.tree.Tree;
 
 /*=========================================================================*/
 /** This class reconstructs ancestral states by taking the great circle midpoint on a downpass if there are two daughters,

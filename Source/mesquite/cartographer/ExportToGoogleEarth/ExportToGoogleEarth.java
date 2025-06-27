@@ -12,13 +12,27 @@ GNU Lesser General Public License.  (http://www.gnu.org/copyleft/lesser.html)
 */
 package mesquite.cartographer.ExportToGoogleEarth;
 
-import mesquite.cont.lib.*;
-import mesquite.lib.*;
-import mesquite.cartographer.lib.*;
+import java.awt.Checkbox;
+
+import mesquite.cartographer.lib.GeographicUtil;
+import mesquite.cartographer.lib.GreatCircleReconstructor;
+import mesquite.cont.lib.GeographicData;
+import mesquite.cont.lib.GeographicState;
+import mesquite.lib.Arguments;
+import mesquite.lib.ExporterDialog;
+import mesquite.lib.IntegerField;
+import mesquite.lib.MesquiteFile;
+import mesquite.lib.MesquiteInteger;
+import mesquite.lib.MesquiteProject;
+import mesquite.lib.MesquiteStringBuffer;
+import mesquite.lib.Parser;
+import mesquite.lib.StringUtil;
 import mesquite.lib.duties.FileInterpreterI;
 import mesquite.lib.duties.OneTreeSource;
-
-import java.awt.*;
+import mesquite.lib.taxa.Taxa;
+import mesquite.lib.tree.Tree;
+import mesquite.lib.ui.ProgressIndicator;
+import mesquite.lib.ui.SingleLineTextField;
 
 
 
@@ -387,7 +401,9 @@ public class ExportToGoogleEarth extends FileInterpreterI {
 		StringUtil.appendEndXMLTag(outputBuffer,0,"Document");
 		StringUtil.appendEndXMLTag(outputBuffer,0,"kml");
 
-		saveExportedFileWithExtension(outputBuffer, arguments, "kml");
+		MesquiteStringBuffer msb = new MesquiteStringBuffer();
+		msb.append(outputBuffer.toString());
+		saveExportedFileWithExtension(msb, arguments, "kml");
 		return true;
 	}
 

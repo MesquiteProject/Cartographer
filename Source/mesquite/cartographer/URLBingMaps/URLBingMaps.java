@@ -12,8 +12,8 @@ GNU Lesser General Public License.  (http://www.gnu.org/copyleft/lesser.html)
 */
 package mesquite.cartographer.URLBingMaps; 
 
-import mesquite.lib.*;
-import mesquite.cartographer.lib.*;
+import mesquite.cartographer.lib.URLLongLatServer;
+import mesquite.lib.StringUtil;
 
 /* ======================================================================== */
 public class URLBingMaps extends URLLongLatServer { 
