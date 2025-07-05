@@ -20,13 +20,16 @@ import mesquite.distance.lib.GeoTaxaDistFromMatrix;
 import mesquite.distance.lib.GeoTaxaDistance;
 import mesquite.distance.lib.TaxaDistance;
 import mesquite.lib.CommandChecker;
+import mesquite.lib.IntegerField;
 import mesquite.lib.MesquiteBoolean;
 import mesquite.lib.MesquiteDouble;
 import mesquite.lib.MesquiteFile;
 import mesquite.lib.MesquiteInteger;
 import mesquite.lib.MesquiteMessage;
 import mesquite.lib.MesquiteModule;
+import mesquite.lib.MesquiteTrunk;
 import mesquite.lib.Snapshot;
+import mesquite.lib.StringUtil;
 import mesquite.lib.characters.MCharactersDistribution;
 import mesquite.lib.taxa.Taxa;
 import mesquite.lib.ui.ExtensibleDialog;
@@ -35,12 +38,12 @@ import mesquite.lib.ui.RadioButtons;
 
 /* ======================================================================== */
 public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
-	MesquiteBoolean calcMiles, calcKilometers;
+	public MesquiteBoolean calcMiles =new MesquiteBoolean(false);
+	public MesquiteBoolean calcKilometers= new MesquiteBoolean(true);
+	public int numDigits= 2;
 
 	/*.................................................................................................................*/
 	public boolean startJob(String arguments, Object condition, boolean hiredByName) {
-		calcKilometers= new MesquiteBoolean(true);
-		calcMiles= new MesquiteBoolean(false);
 		MesquiteSubmenuSpec mss = addSubmenu(null, "Distance Units");
 		addCheckMenuItemToSubmenu( null, mss,"Kilometers", makeCommand("setCalcKilometers",  this), calcKilometers);
 		addCheckMenuItemToSubmenu( null, mss,"Miles", makeCommand("setCalcMiles",  this), calcMiles);
@@ -68,7 +71,9 @@ public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
 		return true;
 	}
 	RadioButtons radios;
+	IntegerField numDisplayDigitsField;
 	public void addOptions(ExtensibleDialog dialog) {
+		loadPreferences();
 		super.addOptions(dialog);
 		String[] labels =  {"kilometers", "miles"};
 		int defaultValue= 0;
@@ -77,6 +82,7 @@ public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
 		else	if (calcMiles.getValue())
 			defaultValue = 2;
 		radios = dialog.addRadioButtons(labels, defaultValue);
+		numDisplayDigitsField = dialog.addIntegerField("Number of digits after decimal point when displaying value:", numDigits, 4, 0, 12);
 
 	}
 	public void processOptions(ExtensibleDialog dialog) {
@@ -89,6 +95,31 @@ public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
 			calcKilometers.setValue(false);
 			calcMiles.setValue(true);
 		}
+		numDigits = numDisplayDigitsField.getValue();
+		storePreferences();
+
+	}
+
+	/*.................................................................................................................*/
+	public String preparePreferencesForXML () {
+		StringBuffer buffer = new StringBuffer(200);
+		StringUtil.appendXMLTag(buffer, 2, "calcKilometers", calcKilometers);  
+		StringUtil.appendXMLTag(buffer, 2, "calcMiles", calcMiles);  
+		StringUtil.appendXMLTag(buffer, 2, "setNumDigits", numDigits);  
+		return buffer.toString();
+	}
+	public void processSingleXMLPreference (String tag, String flavor, String content){
+		processSingleXMLPreference(tag, content);
+	}
+
+	/*.................................................................................................................*/
+	public void processSingleXMLPreference (String tag, String content) {
+		if ("setNumDigits".equalsIgnoreCase(tag))
+			numDigits = MesquiteInteger.fromString(content);
+		if ("calcKilometers".equalsIgnoreCase(tag))
+			calcKilometers.setValue(MesquiteBoolean.fromTrueFalseString(content));
+		if ("calcMiles".equalsIgnoreCase(tag))
+			calcMiles.setValue(MesquiteBoolean.fromTrueFalseString(content));
 	}
 
 	/*.................................................................................................................*/
@@ -96,9 +127,10 @@ public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
 		Snapshot temp = new Snapshot();
 		temp.addLine("setCalcKilometers " + calcKilometers.toOffOnString());
 		temp.addLine("setCalcMiles " + calcMiles.toOffOnString());
+		temp.addLine("setNumDigits " + numDigits);
 		return temp;
 	}
-	MesquiteInteger pos = new MesquiteInteger();
+	MesquiteInteger pos = new MesquiteInteger(0);
 	/*.................................................................................................................*/
 	public Object doCommand(String commandName, String arguments, CommandChecker checker) {
 		if (checker.compare(this.getClass(), "Sets whether or not kilometers should be used for Great Circle Distance calculations.", "[on or off]", commandName, "setCalcKilometers")) {
@@ -116,6 +148,14 @@ public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
 			if (current!=calcMiles.getValue()) {
 				if (calcMiles.getValue())
 					calcKilometers.setValue(false);
+				parametersChanged();
+			}
+
+		}
+		else if (checker.compare(this.getClass(), "Sets number of digits for display.", "[on or off]", commandName, "setNumDigits")) {
+			int newValue = MesquiteInteger.fromFirstToken(arguments, pos);
+			if (newValue!=numDigits) {
+				numDigits = newValue;
 				parametersChanged();
 			}
 
@@ -144,6 +184,8 @@ public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
 	public int getVersionOfFirstRelease(){
 		return -100;  
 	}
+	
+	
 	/*.................................................................................................................*/
 	public boolean showCitation(){
 		return false;
@@ -151,6 +193,8 @@ public class GreatCircleDistance extends GeoTaxaDistFromMatrix {
 }
 
 
+/*.................................................................................................................*/
+/*.................................................................................................................*/
 
 class GreatCircleTaxDist extends GeoTaxaDistance {
 	GeographicData gData;
@@ -181,6 +225,25 @@ class GreatCircleTaxDist extends GeoTaxaDistance {
 		return true;
 	}
 
+	public void distancesToLog(){
+		for (int taxon1=0; taxon1<getNumTaxa(); taxon1++) {
+			for (int taxon2=0; taxon2<getNumTaxa(); taxon2++) {
+				if (taxon1<taxon2)
+					if (MesquiteDouble.isInfinite(getDistance(taxon1,taxon2)))
+						MesquiteTrunk.mesquiteTrunk.logln("" + (taxon1+1) + "-"+ (taxon2+1) + ": INFINITE");
+					else {
+						String s = "" + (taxon1+1) + "-"+ (taxon2+1) + ": " ;
+						s +=MesquiteDouble.toStringDigitsSpecified(getDistance(taxon1,taxon2), gcdModule.numDigits);
+						if (gcdModule.calcKilometers.getValue())
+							s+= " km";
+						if (gcdModule.calcMiles.getValue())
+							s+= " mi";
+						MesquiteTrunk.mesquiteTrunk.logln(s);
+					}
+			}					
+			MesquiteTrunk.mesquiteTrunk.logln("");
+		}
+}
 
 
 
