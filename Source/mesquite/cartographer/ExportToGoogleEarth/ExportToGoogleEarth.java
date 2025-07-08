@@ -9,7 +9,7 @@ Mesquite's web site is http://mesquiteproject.org
 
 This source code and its compiled class files are free and modifiable under the terms of 
 GNU Lesser General Public License.  (http://www.gnu.org/copyleft/lesser.html)
-*/
+ */
 package mesquite.cartographer.ExportToGoogleEarth;
 
 import java.awt.Checkbox;
@@ -21,6 +21,7 @@ import mesquite.cartographer.lib.GreatCircleReconstructor;
 import mesquite.cont.lib.GeographicData;
 import mesquite.cont.lib.GeographicState;
 import mesquite.lib.Arguments;
+import mesquite.lib.Debugg;
 import mesquite.lib.ExporterDialog;
 import mesquite.lib.IntegerField;
 import mesquite.lib.MesquiteBoolean;
@@ -53,18 +54,18 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	int maxHeight=2000000;
 	int unselectedBranchWidth = 3;
 	int selectedBranchWidth = 4;
-	
+
 	String unselectedColor = "ff88ffff";
 	String selectedColor ="ff00bbff";
-	
-	
+
+
 
 
 	/*.................................................................................................................*/
 	public boolean startJob(String arguments, Object condition, boolean hiredByName) {
 		loadPreferences();
- 		return true;  //make this depend on taxa reader being found?)
-  	 }
+		return true;  //make this depend on taxa reader being found?)
+	}
 
 	public boolean isPrerelease(){
 		return false;
@@ -74,33 +75,33 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	}
 
 	/*.................................................................................................................*/
-   	/** returns the version number at which this module was first released.  If 0, then no version number is claimed.  If a POSITIVE integer
-   	 * then the number refers to the Mesquite version.  This should be used only by modules part of the core release of Mesquite.
-   	 * If a NEGATIVE integer, then the number refers to the local version of the package, e.g. a third party package*/
-      	public int getVersionOfFirstRelease(){
-      		return -120;  
-    }
+	/** returns the version number at which this module was first released.  If 0, then no version number is claimed.  If a POSITIVE integer
+	 * then the number refers to the Mesquite version.  This should be used only by modules part of the core release of Mesquite.
+	 * If a NEGATIVE integer, then the number refers to the local version of the package, e.g. a third party package*/
+	public int getVersionOfFirstRelease(){
+		return -120;  
+	}
 
-      	/*.................................................................................................................*/
+	/*.................................................................................................................*/
 	public String preferredDataFileExtension() {
- 		return "kml";
-   	 }
-/*.................................................................................................................*/
+		return "kml";
+	}
+	/*.................................................................................................................*/
 	public boolean canExportEver() {  
-		 return true;  //
+		return true;  //
 	}
-/*.................................................................................................................*/
+	/*.................................................................................................................*/
 	public boolean canExportProject(MesquiteProject project) {  
-		 return (project.getNumberCharMatrices( GeographicState.class) > 0) ;
+		return (project.getNumberCharMatrices( GeographicState.class) > 0) ;
 	}
-	
-/*.................................................................................................................*/
+
+	/*.................................................................................................................*/
 	public boolean canExportData(Class dataClass) {  
 		return (dataClass==GeographicState.class);
 	}
-/*.................................................................................................................*/
+	/*.................................................................................................................*/
 	public boolean canImport() {  
-		 return false;
+		return false;
 	}
 
 	/*.................................................................................................................*/
@@ -139,7 +140,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		StringBuffer buffer = new StringBuffer(200);
 		StringUtil.appendXMLTag(buffer, 2, "includeTree", includeTree);  
 		StringUtil.appendXMLTag(buffer, 2, "squareTree", squareTree);  
-//		StringUtil.appendXMLTag(buffer, 2, "useDefaultExecutablePath",  useDefaultExecutablePath);       //TODO4.01
+		//		StringUtil.appendXMLTag(buffer, 2, "useDefaultExecutablePath",  useDefaultExecutablePath);       //TODO4.01
 		StringUtil.appendXMLTag(buffer, 2, "showSelected", showSelected);  
 		StringUtil.appendXMLTag(buffer, 2, "terminalsOnGround", terminalsOnGround);  
 		StringUtil.appendXMLTag(buffer, 2, "phylogram", phylogram);  
@@ -153,7 +154,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		StringUtil.appendXMLTag(buffer, 2, "selectedColor", selectedColor);  
 		return buffer.toString();
 	}
-	
+
 	/* ============================  exporting ============================*/
 	Checkbox includeTreeCheckbox;
 	Checkbox squareTreeCheckbox;
@@ -168,7 +169,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	IntegerField rootHeightField;
 
 	/*.................................................................................................................*/
-	
+
 	public boolean getExportOptions(boolean dataSelected, boolean taxaSelected){
 		MesquiteInteger buttonPressed = new MesquiteInteger(1);
 		ExporterDialog exportDialog = new ExporterDialog(this,containerOfModule(), "Export To Google Earth Options", buttonPressed);
@@ -179,11 +180,11 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		exportDialog.appendToHelpString(helpString);
 		exportDialog.setHelpURL(getPackageCanonicalDocsPath()+"googleEarth.html");
 
-		
+
 		includeTreeCheckbox = exportDialog.addCheckBox("include a tree (tree must be present in tree window)", includeTree);
 		includeTreeCheckbox.addItemListener(this);
 		squareTreeCheckbox = exportDialog.addCheckBox("square tree", squareTree);
-		phylogramCheckbox = exportDialog.addCheckBox("display w if branch lengths available", phylogram);
+		phylogramCheckbox = exportDialog.addCheckBox("display with branches proportional to lengths if branch lengths available", phylogram);
 		terminalsOnGroundCheckbox = exportDialog.addCheckBox("place terminal taxa on ground", terminalsOnGround);
 		extrudeCheckbox = exportDialog.addCheckBox("show connection from ground to any terminals above ground", extrudeIcons);
 		showSelectedCheckbox = exportDialog.addCheckBox("highlight selected branches", showSelected);
@@ -193,13 +194,13 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		selectedColorField = exportDialog.addTextField("Selected branch color", selectedColor, 12);
 		selectedWidthField = exportDialog.addIntegerField("Selected branch width", selectedBranchWidth, 6);
 		rootHeightField = exportDialog.addIntegerField("Height of root (in meters)", maxHeight, 12);
-		
+
 		checkEnabling();
-		
+
 		exportDialog.completeAndShowDialog(dataSelected, taxaSelected);
-			
+
 		boolean ok = (exportDialog.query(dataSelected, taxaSelected)==0);
-		
+
 		if (ok) {
 			includeTree = includeTreeCheckbox.getState();
 			squareTree = squareTreeCheckbox.getState();
@@ -214,7 +215,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			extrudeIcons = extrudeCheckbox.getState();
 			storePreferences();
 		}
-		
+
 		exportDialog.dispose();
 		return ok;
 	}	
@@ -242,7 +243,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 				selectedWidthField.setEnabled(treeIncluded);
 			if (rootHeightField!=null)
 				rootHeightField.setEnabled(treeIncluded);
-}
+		}
 	}
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getItemSelectable()==includeTreeCheckbox && includeTreeCheckbox!=null){
@@ -255,12 +256,12 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		return "googleEarth.html";
 	}
 
- 	/** Returns whether or not the URL for this module is a relative reference from the PackageIntro directory */
+	/** Returns whether or not the URL for this module is a relative reference from the PackageIntro directory */
 	public boolean URLinPackageIntro(){
 		return true;
 	}
 
-	
+
 	public void readFile(MesquiteProject mf, MesquiteFile mNF, String arguments) {
 
 	}
@@ -311,76 +312,91 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 				progIndicator.setText("Node " + nodeCount);
 				progIndicator.setCurrentValue(nodeCount);
 			}
-
 			double longitude =  reconstructed[0][node];
 			double latitude =  reconstructed[1][node];
-			double height;
-			if (useBranchLengths) {
-				if (terminalsOnGround)
-					height = tree.tallestPathAboveNode(node,1.0)*depthUnit;
-				else 
-					height = (rootHeight-tree.distanceToRoot(node,true,1.0))*depthUnit;
-			}
-			else {
-				height = tree.deepestPath(node)*1.0*depthUnit;
-			}
-			double ancLongitude =  reconstructed[0][tree.parentOfNode(node, 1)];
-			double ancLatitude =  reconstructed[1][tree.parentOfNode(node, 1)];
-			
-			
-			
-			double ancHeight ;
-			if (useBranchLengths) {
-				if (terminalsOnGround)
-					ancHeight =tree.tallestPathAboveNode(tree.parentOfNode(node, 1),1.0)*depthUnit;
+
+			if (MesquiteDouble.isCombinable(longitude) && MesquiteDouble.isCombinable(latitude)) {
+
+
+				double height;
+				if (useBranchLengths) {
+					if (terminalsOnGround)
+						height = tree.tallestPathAboveNode(node,1.0)*depthUnit;
+					else 
+						height = (rootHeight-tree.distanceToRoot(node,true,1.0))*depthUnit;
+				}
+				else {
+					height = tree.deepestPath(node)*1.0*depthUnit;
+				}
+				double ancLongitude =  reconstructed[0][tree.parentOfNode(node, 1)];
+				double ancLatitude =  reconstructed[1][tree.parentOfNode(node, 1)];
+
+
+
+				double ancHeight ;
+				if (useBranchLengths) {
+					if (terminalsOnGround)
+						ancHeight =tree.tallestPathAboveNode(tree.parentOfNode(node, 1),1.0)*depthUnit;
+					else
+						ancHeight = (rootHeight-tree.distanceToRoot(tree.parentOfNode(node, 1),true,1.0))*depthUnit;
+				}
+				else {
+					ancHeight = tree.deepestPath(tree.parentOfNode(node, 1))*1.0*depthUnit;
+				}
+
+				StringUtil.appendStartXMLTag(outputBuffer,1,"Placemark", true);
+				if (showSelected && tree.getSelected(node))
+					StringUtil.appendXMLTag(outputBuffer,2, "styleUrl", "#selectedLine");
 				else
-					ancHeight = (rootHeight-tree.distanceToRoot(tree.parentOfNode(node, 1),true,1.0))*depthUnit;
-			}
-			else {
-				ancHeight = tree.deepestPath(tree.parentOfNode(node, 1))*1.0*depthUnit;
+					StringUtil.appendXMLTag(outputBuffer,2, "styleUrl", "#unselectedLine");
+				StringUtil.appendStartXMLTag(outputBuffer,2,"LineString", true);
+				StringUtil.appendXMLTag(outputBuffer,3,"altitudeMode", "absolute");
+				StringUtil.appendStartXMLTag(outputBuffer,3,"coordinates", true);
+				outputBuffer.append("\t\t\t\t"+longitude + "," + latitude + ","+height+"\n"); //location of node
+				if (squareTree) {
+					outputBuffer.append("\t\t\t\t"+longitude + "," + latitude + ","+ancHeight+"\n"); // "elbow" of square tree branch
+					if (avoidThroughEarth && (Math.abs(ancLongitude-longitude)>1.0 && Math.abs(ancLatitude-latitude)>1.0))
+						writeGreatCirclePath(outputBuffer,  ancLongitude,  longitude,  ancLatitude,  latitude,  ancHeight, ancHeight);				
+					outputBuffer.append("\t\t\t\t"+ancLongitude + "," + ancLatitude + ","+ancHeight+"\n");  // location of ancestral node
+				}
+				else {
+					if (avoidThroughEarth && (Math.abs(ancLongitude-longitude)>1.0 && Math.abs(ancLatitude-latitude)>1.0))
+						writeGreatCirclePath(outputBuffer,  ancLongitude,  longitude,  ancLatitude,  latitude,  height, ancHeight);				
+					outputBuffer.append("\t\t\t\t"+ancLongitude + "," + ancLatitude + ","+ancHeight+"\n");  // location of ancestral node
+				}
+
+				StringUtil.appendEndXMLTag(outputBuffer,3,"coordinates");
+				StringUtil.appendEndXMLTag(outputBuffer,2,"LineString");
+				StringUtil.appendEndXMLTag(outputBuffer,1,"Placemark");
 			}
 
-			StringUtil.appendStartXMLTag(outputBuffer,1,"Placemark", true);
-			if (showSelected && tree.getSelected(node))
-				StringUtil.appendXMLTag(outputBuffer,2, "styleUrl", "#selectedLine");
-			else
-				StringUtil.appendXMLTag(outputBuffer,2, "styleUrl", "#unselectedLine");
-			StringUtil.appendStartXMLTag(outputBuffer,2,"LineString", true);
-			StringUtil.appendXMLTag(outputBuffer,3,"altitudeMode", "absolute");
-			StringUtil.appendStartXMLTag(outputBuffer,3,"coordinates", true);
-			outputBuffer.append("\t\t\t\t"+longitude + "," + latitude + ","+height+"\n"); //location of node
-			if (squareTree) {
-				outputBuffer.append("\t\t\t\t"+longitude + "," + latitude + ","+ancHeight+"\n"); // "elbow" of square tree branch
-				if (avoidThroughEarth && (Math.abs(ancLongitude-longitude)>1.0 && Math.abs(ancLatitude-latitude)>1.0))
-					writeGreatCirclePath(outputBuffer,  ancLongitude,  longitude,  ancLatitude,  latitude,  ancHeight, ancHeight);				
-				outputBuffer.append("\t\t\t\t"+ancLongitude + "," + ancLatitude + ","+ancHeight+"\n");  // location of ancestral node
-			}
-			else {
-				if (avoidThroughEarth && (Math.abs(ancLongitude-longitude)>1.0 && Math.abs(ancLatitude-latitude)>1.0))
-					writeGreatCirclePath(outputBuffer,  ancLongitude,  longitude,  ancLatitude,  latitude,  height, ancHeight);				
-				outputBuffer.append("\t\t\t\t"+ancLongitude + "," + ancLatitude + ","+ancHeight+"\n");  // location of ancestral node
-			}
-
-			StringUtil.appendEndXMLTag(outputBuffer,3,"coordinates");
-			StringUtil.appendEndXMLTag(outputBuffer,2,"LineString");
-			StringUtil.appendEndXMLTag(outputBuffer,1,"Placemark");
-			
 		}
 	}
-	
+
 	/*.................................................................................................................*/
 	private void writeTreeCoordinates(StringBuffer outputBuffer, Tree tree, GeographicData data) {
 		GreatCircleReconstructor reconstructor = new GreatCircleReconstructor();
 		// ................  get raw long lats and put into arrays ........
 		double[][] originalCoordinates = new double[2][tree.getNumNodeSpaces()];
 		for (int it = 0; it<tree.getNumTaxa(); it++) {
-			originalCoordinates[0][it] = data.getState(GeographicData.getLongitudeCharacter(),it,0);
-			originalCoordinates[1][it] = data.getState(GeographicData.getLatitudeCharacter(),it,0);
+			if (data.hasDataForTaxon(it)) {
+				originalCoordinates[0][it] = data.getState(GeographicData.getLongitudeCharacter(),it,0);
+				originalCoordinates[1][it] = data.getState(GeographicData.getLatitudeCharacter(),it,0);
+			} else {
+				originalCoordinates[0][it] = MesquiteDouble.unassigned;
+				originalCoordinates[1][it] = MesquiteDouble.unassigned;
+			}
 		}				
-   		reconstructor.reconstruct(tree, originalCoordinates, false, true, null);  		
+		reconstructor.reconstruct(tree, originalCoordinates, false, true, null);  		
 		double[][]  reconstructed  = reconstructor.getReconstructedStates(0);
-
 		
+		if (reconstructed==null) {
+			MesquiteMessage.discreetNotifyUser("Locations of nodes in tree could not be reconstructed; this is possibly a result of some taxa having no latitude or longitude values. "
+					+ "Tree will not be included.");
+			return;
+		}
+
+
 		double depth;
 		boolean useBranchLengths = tree.hasBranchLengths() && phylogram;
 		if (useBranchLengths) {
@@ -391,7 +407,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		}
 		double unit = 1.0*maxHeight/depth;
 
-		
+
 		outputBuffer.append("\t<Style id=\"unselectedLine\">\n" );
 		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
 		StringUtil.appendXMLTag(outputBuffer,3,"color", unselectedColor);
@@ -405,11 +421,11 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		StringUtil.appendXMLTag(outputBuffer,3,"width", ""+selectedBranchWidth);
 		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
 		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
-		
+
 		outputBuffer.append("\t<Style id=\"thinGreyLine\">\n" );
 		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
 		StringUtil.appendXMLTag(outputBuffer,3,"color", "ff0000");
-//		StringUtil.appendXMLTag(outputBuffer,3,"color", "b1b1b1");
+		//		StringUtil.appendXMLTag(outputBuffer,3,"color", "b1b1b1");
 		StringUtil.appendXMLTag(outputBuffer,3,"width", "8");
 		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
 		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
@@ -471,23 +487,23 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 
 		StringUtil.appendXMLTag(outputBuffer,1,"description", "Exported from Cartographer");
 		StringUtil.appendXMLTag(outputBuffer,1,"name", "Localities");
-//		StringUtil.appendXMLTag(outputBuffer,1,"visibility", 0);
+		//		StringUtil.appendXMLTag(outputBuffer,1,"visibility", 0);
 		StringUtil.appendXMLTag(outputBuffer,1,"open", 1);
-//		exportStyles(outputBuffer);
-		
+		//		exportStyles(outputBuffer);
+
 		for (int it = 0; it<numTaxa; it++){
-			if (!writeOnlySelectedTaxa || (taxa.getSelected(it))){
+			if ((!writeOnlySelectedTaxa || (taxa.getSelected(it))) && data.hasDataForTaxon(it)){
 				StringUtil.appendStartXMLTag(outputBuffer,1,"Placemark", true);
 				StringUtil.appendXMLTag(outputBuffer,2,"name", taxa.getTaxonName(it));
-//				StringUtil.appendXMLTag(outputBuffer,2,"styleUrl", "#cyan");
-				
+				//				StringUtil.appendXMLTag(outputBuffer,2,"styleUrl", "#cyan");
+
 				StringUtil.appendStartXMLTag(outputBuffer,2,"LookAt", true);
 				StringUtil.appendXMLTag(outputBuffer,3,"longitude", data.getState(GeographicData.getLongitudeCharacter(),it,0));
 				StringUtil.appendXMLTag(outputBuffer,3,"latitude", data.getState(GeographicData.getLatitudeCharacter(),it,0));
 				StringUtil.appendXMLTag(outputBuffer,3,"range", 5000);
 				StringUtil.appendEndXMLTag(outputBuffer,2,"LookAt");
-				
-//				StringUtil.appendXMLTag(outputBuffer,2,"visibility", 0);
+
+				//				StringUtil.appendXMLTag(outputBuffer,2,"visibility", 0);
 
 				StringUtil.appendStartXMLTag(outputBuffer,2,"Point", true);
 				double height = 0.0;
@@ -504,7 +520,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 				StringUtil.appendXMLTag(outputBuffer,3,"coordinates", ""+data.getState(GeographicData.getLongitudeCharacter(),it,0) + "," + data.getState(GeographicData.getLatitudeCharacter(),it,0)+ ","+height);
 				StringUtil.appendEndXMLTag(outputBuffer,2,"Point");
 
-				
+
 				StringUtil.appendEndXMLTag(outputBuffer,1,"Placemark");
 				outputBuffer.append(getLineEnding());
 			}
@@ -545,8 +561,8 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		super.getSubfunctions();
 	}
 
-	
-	
+
+
 	/** code for David's stuff */
 	/*.................................................................................................................*/
 	private void exportStyles(StringBuffer outputBuffer) {
@@ -576,6 +592,6 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		outputBuffer.append("\t\t\t<styleUrl>#cyanStarHighlight</styleUrl>\n" );
 		StringUtil.appendEndXMLTag(outputBuffer,2,"Pair");
 		StringUtil.appendEndXMLTag(outputBuffer,1,"StyleMap");
-}
+	}
 
 }

@@ -16,7 +16,7 @@ public class GreatCircleReconstructor {
 		double[][] reconstructedStates;
 		Tree tree;
 		double[][] downA;
-		int item = 0;
+		//int item = 0;
 		int alreadyWarnedZeroLength = 0;
 		int numChars = 0;
 		int numItems = 1;
@@ -26,7 +26,7 @@ public class GreatCircleReconstructor {
 		public void reconstruct(Tree tree, double[][] observedStates,boolean weighted,  boolean rootedMode, boolean[] deletedTaxa){
 			//NOTE: rootedMode == false not yet supported
 			if (!rootedMode)
-				MesquiteMessage.warnProgrammer("SquaredReconstructor error: rootedMode == false not yet supported");
+				MesquiteMessage.warnProgrammer("GreatCircleReconstructor error: rootedMode == false not yet supported");
 			if (observedStates!=null && tree!=null && !(tree.nodeIsPolytomous(tree.getRoot()) && !rootedMode)){
 				this.deleted = deletedTaxa;
 				this.observedStates = observedStates;
@@ -50,12 +50,14 @@ public class GreatCircleReconstructor {
 				downA=  new double[numChars][tree.getNumNodeSpaces()];
 	 		}
 	 		Double2DArray.zeroArray(downA);
-			for (item = 0; item<numItems; item++) { //NOTE THIS relies on the variable item!  reentrancy problems could arise...
-		 		if (statesLegal(tree, tree.getRoot(deleted))){
+	 		boolean someReconstructed = false;
+			for (int item = 0; item<numItems; item++) { 
+		 		if (statesLegal(item, tree, tree.getRoot(deleted))){
 					greatCircleReconstruct(tree);
+					someReconstructed = true;
 				}
 			}
-			reconstructed = true;
+			reconstructed = someReconstructed;
 		}
 		
 
@@ -130,7 +132,7 @@ public class GreatCircleReconstructor {
 		
 		
 		
-		public boolean statesLegal(Tree tree, int node) {
+		public boolean statesLegal(int item, Tree tree, int node) {
 			if (tree.nodeIsTerminal(node)) {
 				for (int ic = 0; ic<numChars; ic++)
 					if (!ContinuousState.isCombinable(getObservedState(item, ic, tree.taxonNumberOfNode(node))))
@@ -138,7 +140,7 @@ public class GreatCircleReconstructor {
 				return true;
 			}
 			for (int d = tree.firstDaughterOfNode(node, deleted); tree.nodeExists(d); d = tree.nextSisterOfNode(d, deleted))
-				if (!statesLegal(tree, d))
+				if (!statesLegal(item, tree, d))
 					return false;
 			return true;
 		}
