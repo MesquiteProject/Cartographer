@@ -338,6 +338,7 @@ public class ExportToGoogleEarth extends FileInterpreterI {
 				treeTask.initialize(taxa);
 				tree = treeTask.getTree(taxa);
 			}
+			fireEmployee(treeTask);
 		}
 
 		int numTaxa = taxa.getNumTaxa();
