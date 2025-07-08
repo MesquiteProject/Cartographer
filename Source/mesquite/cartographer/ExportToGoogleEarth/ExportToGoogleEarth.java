@@ -36,6 +36,7 @@ import mesquite.lib.StringUtil;
 import mesquite.lib.duties.FileInterpreterI;
 import mesquite.lib.duties.OneTreeSource;
 import mesquite.lib.taxa.Taxa;
+import mesquite.lib.tree.MesquiteTree;
 import mesquite.lib.tree.Tree;
 import mesquite.lib.ui.ProgressIndicator;
 import mesquite.lib.ui.SingleLineTextField;
@@ -181,7 +182,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		exportDialog.setHelpURL(getPackageCanonicalDocsPath()+"googleEarth.html");
 
 
-		includeTreeCheckbox = exportDialog.addCheckBox("include a tree (tree must be present in tree window)", includeTree);
+		includeTreeCheckbox = exportDialog.addCheckBox("include a tree (a tree must be shown in a tree window)", includeTree);
 		includeTreeCheckbox.addItemListener(this);
 		squareTreeCheckbox = exportDialog.addCheckBox("square tree", squareTree);
 		phylogramCheckbox = exportDialog.addCheckBox("display with branches proportional to lengths if branch lengths available", phylogram);
@@ -444,6 +445,18 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			progIndicator.goAway();
 
 	}
+	
+	void removeEmptyTerminals(MesquiteTree tree, Taxa taxa, GeographicData data) {
+		for (int it = 0; it<taxa.getNumTaxa(); it++){
+			if (!data.hasDataForTaxon(it)){
+				int node = tree.nodeOfTaxonNumber(it);
+				if (node>0) {
+					tree.deleteClade(node, false);
+				}
+			}
+		}
+
+	}
 	/*.................................................................................................................*/
 	public boolean exportFile(MesquiteFile file, String arguments) { //if file is null, consider whole project open to export
 		Arguments args = new Arguments(new Parser(arguments), true);
@@ -461,12 +474,13 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		}
 
 		Taxa taxa = data.getTaxa();
-		Tree tree = null;
+		MesquiteTree tree = null;
 		if (includeTree) {
 			OneTreeSource treeTask = (OneTreeSource)hireEmployee(OneTreeSource.class, "Source of tree to be exported to Google Earth file");
 			if (treeTask != null) {
 				treeTask.initialize(taxa);
-				tree = treeTask.getTree(taxa);
+				tree = (MesquiteTree)treeTask.getTree(taxa);
+				removeEmptyTerminals(tree,taxa, data);
 			}
 			if (tree==null) {
 				includeTree = false;
