@@ -4,6 +4,7 @@ var qsParm = new Array();
 
 qsParm['GettingStartedPanel'] = null;
 qsParm['CreditPanel'] = null;
+qsParm['HistroyPanel'] = null;
 
 qs();
 
@@ -26,6 +27,10 @@ parameterString = function()
 	if (GettingStartedPanel.isOpen()) {
 		if (paramString=='') paramString+='?'; else paramString+='&';
 		paramString+= 'GettingStartedPanel=open';
+	}
+	if (HistoryPanel.isOpen()) {
+		if (paramString=='') paramString+='?'; else paramString+='&';
+		paramString+= 'HistoryPanel=open';
 	}
 	if (CreditPanel.isOpen()) {
 		if (paramString=='') paramString+='?'; else paramString+='&';
