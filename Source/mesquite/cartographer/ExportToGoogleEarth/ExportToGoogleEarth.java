@@ -51,9 +51,10 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	boolean extrudeIcons = false;
 	boolean avoidThroughEarth = true;
 	boolean greatCircleBigSteps = false;
-	int maxHeight=2000000;
+	int maxHeight=1000000;
 	int unselectedBranchWidth = 3;
 	int selectedBranchWidth = 4;
+	boolean includeTaxonNames = true;
 
 	String unselectedColor = "ff88ffff";
 	String selectedColor ="ff00bbff";
@@ -122,13 +123,14 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			avoidThroughEarth = MesquiteBoolean.fromTrueFalseString(content);
 		else if ("greatCircleBigSteps".equalsIgnoreCase(tag))
 			greatCircleBigSteps = MesquiteBoolean.fromTrueFalseString(content);
+		else if ("includeTaxonNames".equalsIgnoreCase(tag))
+			includeTaxonNames = MesquiteBoolean.fromTrueFalseString(content);
 		else if ("maxHeight".equalsIgnoreCase(tag))
 			maxHeight = MesquiteInteger.fromString(content);
 		else if ("unselectedBranchWidth".equalsIgnoreCase(tag))
 			unselectedBranchWidth = MesquiteInteger.fromString(content);
 		else if ("selectedBranchWidth".equalsIgnoreCase(tag))
 			selectedBranchWidth = MesquiteInteger.fromString(content);
-
 		else if ("unselectedColor".equalsIgnoreCase(tag))
 			unselectedColor = StringUtil.cleanXMLEscapeCharacters(content);
 		else if ("selectedColor".equalsIgnoreCase(tag))
@@ -140,13 +142,13 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		StringBuffer buffer = new StringBuffer(200);
 		StringUtil.appendXMLTag(buffer, 2, "includeTree", includeTree);  
 		StringUtil.appendXMLTag(buffer, 2, "squareTree", squareTree);  
-		//		StringUtil.appendXMLTag(buffer, 2, "useDefaultExecutablePath",  useDefaultExecutablePath);       //TODO4.01
 		StringUtil.appendXMLTag(buffer, 2, "showSelected", showSelected);  
 		StringUtil.appendXMLTag(buffer, 2, "terminalsOnGround", terminalsOnGround);  
 		StringUtil.appendXMLTag(buffer, 2, "phylogram", phylogram);  
 		StringUtil.appendXMLTag(buffer, 2, "extrudeIcons", extrudeIcons);  
 		StringUtil.appendXMLTag(buffer, 2, "avoidThroughEarth", avoidThroughEarth);  
 		StringUtil.appendXMLTag(buffer, 2, "greatCircleBigSteps", greatCircleBigSteps);  
+		StringUtil.appendXMLTag(buffer, 2, "includeTaxonNames", includeTaxonNames);  
 		StringUtil.appendXMLTag(buffer, 2, "maxHeight", maxHeight);  
 		StringUtil.appendXMLTag(buffer, 2, "unselectedBranchWidth", unselectedBranchWidth);  
 		StringUtil.appendXMLTag(buffer, 2, "selectedBranchWidth", selectedBranchWidth);  
@@ -194,6 +196,8 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		selectedColorField = exportDialog.addTextField("Selected branch color", selectedColor, 12);
 		selectedWidthField = exportDialog.addIntegerField("Selected branch width", selectedBranchWidth, 6);
 		rootHeightField = exportDialog.addIntegerField("Height of root (in meters)", maxHeight, 12);
+		
+		Checkbox includeTaxonNamesBox = exportDialog.addCheckBox("include taxon names", includeTaxonNames);
 
 		checkEnabling();
 
@@ -213,6 +217,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			unselectedBranchWidth = unselectedWidthField.getValue();
 			selectedBranchWidth = selectedWidthField.getValue();
 			extrudeIcons = extrudeCheckbox.getState();
+			includeTaxonNames = includeTaxonNamesBox.getState();
 			storePreferences();
 		}
 
@@ -507,9 +512,10 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		//		exportStyles(outputBuffer);
 
 		for (int it = 0; it<numTaxa; it++){
-			if ((!writeOnlySelectedTaxa || (taxa.getSelected(it))) && data.hasDataForTaxon(it)){
+			if ((!writeOnlySelectedTaxa || (taxa.getSelected(it))) && data.hasDataForTaxon(it) && (!includeTree || tree.taxonInTree(it))){
 				StringUtil.appendStartXMLTag(outputBuffer,1,"Placemark", true);
-				StringUtil.appendXMLTag(outputBuffer,2,"name", taxa.getTaxonName(it));
+				if (includeTaxonNames)
+					StringUtil.appendXMLTag(outputBuffer,2,"name", taxa.getTaxonName(it));
 				//				StringUtil.appendXMLTag(outputBuffer,2,"styleUrl", "#cyan");
 
 				StringUtil.appendStartXMLTag(outputBuffer,2,"LookAt", true);
