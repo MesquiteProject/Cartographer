@@ -21,6 +21,7 @@ import mesquite.cartographer.lib.GreatCircleReconstructor;
 import mesquite.cont.lib.GeographicData;
 import mesquite.cont.lib.GeographicState;
 import mesquite.lib.Arguments;
+import mesquite.lib.Debugg;
 import mesquite.lib.ExporterDialog;
 import mesquite.lib.IntegerField;
 import mesquite.lib.MesquiteBoolean;
@@ -57,7 +58,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	boolean includeTaxonNames = true;
 
 	String unselectedColor = "ff88ffff";
-	String selectedColor ="ff00bbff";
+	String selectedColor ="ff2255dd";
 
 
 
@@ -427,13 +428,14 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
 		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
 
-		outputBuffer.append("\t<Style id=\"thinGreyLine\">\n" );
+/*		outputBuffer.append("\t<Style id=\"thinGreyLine\">\n" );
 		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
 		StringUtil.appendXMLTag(outputBuffer,3,"color", "ff0000");
 		//		StringUtil.appendXMLTag(outputBuffer,3,"color", "b1b1b1");
 		StringUtil.appendXMLTag(outputBuffer,3,"width", "8");
 		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
 		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
+		*/
 
 		progIndicator = new ProgressIndicator(getProject(),getName(), "Exporting to Google Earth", tree.getNumNodeSpaces(), true);
 		if (progIndicator!=null){
