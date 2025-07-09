@@ -444,7 +444,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			progIndicator.start();
 		}
 		nodeCount=0;
-
+		
 		writeNodeCoordinates(outputBuffer,tree, tree.getRoot(), data, reconstructed, depth, unit, useBranchLengths);
 
 		if (progIndicator!=null)
@@ -485,7 +485,8 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			OneTreeSource treeTask = (OneTreeSource)hireEmployee(OneTreeSource.class, "Source of tree to be exported to Google Earth file");
 			if (treeTask != null) {
 				treeTask.initialize(taxa);
-				tree = (MesquiteTree)treeTask.getTree(taxa);
+				MesquiteTree origtree = (MesquiteTree)treeTask.getTree(taxa);
+				tree = origtree.cloneTree();
 				removeEmptyTerminals(tree,taxa, data);
 			}
 			if (tree==null) {
