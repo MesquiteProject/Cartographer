@@ -41,8 +41,8 @@
     <td width="51%"><img src="images/cartographerBanner.jpg" width="395" height="110" /></td>
     <td width="33%" align="right"><div id="subtitle"><!-- InstanceBeginEditable name="subtitle" -->Google Earth<!-- InstanceEndEditable --></div></td>
     <td width="2%">&nbsp;</td>
-    <td width="14%">Version 1.70<br />
-      27 June 2025<br /></td>
+    <td width="14%">Version 1.71<br />
+      9 July 2025<br /></td>
   </tr>
 </table>
 
@@ -95,6 +95,15 @@
   <div id="NonCollapsiblePanel">
     <a href="javascript:pageLink('googleEarth.html')">Google Earth</a>
   </div>
+<div id="HistoryPanel" class="CollapsiblePanel">
+  <div class="CollapsiblePanelTab" tabindex="0">History ˇ</div>
+  <div class="CollapsiblePanelContent" style="display: block">
+  		<table width="100%" border="0" cellpadding="1">
+  			<tr><td><a href="javascript:pageLink('versions.html');">Versions</a></td></tr>
+  			<tr><td><a href="javascript:pageLink('featureHistory.html');">Feature & Bug History</a></td></tr>
+		</table>
+  </div>
+</div>
 <div id="CreditPanel" class="CollapsiblePanel">
   <div class="CollapsiblePanelTab" tabindex="0">Citation & Credit ˇ</div>
   <div class="CollapsiblePanelContent" style="display: block">
@@ -113,10 +122,9 @@
     
 <!-- InstanceBeginEditable name="content" -->
 	  <h2>Google Earth</h2>
-    <P>
-<font face="Trebuchet MS">The Export menu item allows you to export a matrix of geographic coordinates to a Google Earth KML file, which you can then open in <a href="http://earth.google.com/">Google Earth</a>. 
+    <P><font face="Trebuchet MS">If you choose File &gt; Export..., and in the dialog box that appears, then choose Export for Google Earth, you will be given options to export your geographic data to a  Google Earth KML file, which you can then open in <a href="http://earth.google.com/">Google Earth</a>. 
 You can either choose to display only the individual latitude-longitude points:</font></P> <P align="center"><img src="images/googleEarthDots.jpg" width="626" height="400"></P> <P>
-<font face="Trebuchet MS">or, if a tree is displayed in a Mesquite window, you can include it:</font></P> 
+<font face="Trebuchet MS">If a tree is displayed in a Mesquite window, you can include it:</font></P> 
 <P align="center"><img src="images/googleEarth.jpg" width="774" height="615"></P> 
 <P><font face="Trebuchet MS">This tree diagram is modeled after the work of Bill Piel (see the <a href="http://www.treebase.org/getrees/">Experimental Google Earth Phylogenetic Tree Server</a>), with some of the modifications suggested by Rod Page on his <a href="http://iphylo.blogspot.com/2007/06/google-earth-phylogenies.html">iPhylo blog</a>.</font> 
 </P> <P><font face="Trebuchet MS">The geographic location of ancestral nodes is reconstructed as the midpoint of the Great Circle line that joins two immediate descendents of that node (if there are
@@ -127,7 +135,9 @@ You can either choose to display only the individual latitude-longitude points:<
 The ancestral locations should thus not necessarily be considered biogeographically meaningful - they are drawn where they are primarily for aesthetic reasons.</font></P>
 <P><font face="Trebuchet MS">For points far-separated on the Earth, Cartographer draws lines on the Great Circle that joins those points, as shown in the following image:</font></P>
 <P align="center"><img src="images/greatCircle.jpg" width="645" height="300"></P>
-<P>To create such a Google Earth file, choose File&gt;Export, and in the list that is presented, choose Export To Google Earth. You will have the options to do the following:</P>
+<P>When you choose Export To Google Earth, here are the options you will be presented with:</P><div align="center"><img src="images/googleEarth1.png" width="494" height="558" alt=""/></div></P>
+<P>&nbsp;</P>
+<P>You  have the options to do the following:</P>
 <ul> <ul> <li>include a tree in the Google Earth display</li>
 <li> <div align="left">draw the branches diagonally, or as a &quot;square tree&quot;. The tree shown above is a &quot;square tree&quot;, the one below has diagonal branches:<br>
 <img src="images/googleDiagonal.jpg" width="324" height="400"> </div></li>
@@ -156,7 +166,7 @@ Thus, 7700ffff is a partly transparent yellow.</li>
     </div>
 	<!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats --><br class="clearfloat" />
   <div id="footer">
-    <p> ©2023 David R. Maddison &amp; Wayne P. Maddison</p>
+    <p> ©2025 David R. Maddison &amp; Wayne P. Maddison</p>
   <!-- end #footer --></div>
 <!-- end #container --></div>
 
@@ -165,6 +175,12 @@ Thus, 7700ffff is a partly transparent yellow.</li>
 
 var GettingStartedPanel = null;
 var CreditPanel = null;
+var HistoryPanel = null;
+
+if (qsParm['HistoryPanel']=='open')
+ 	HistoryPanel = new Spry.Widget.CollapsiblePanel("HistoryPanel", {contentIsOpen: true});
+else
+ 	HistoryPanel = new Spry.Widget.CollapsiblePanel("HistoryPanel", {contentIsOpen: false});
 
 if (qsParm['GettingStartedPanel']=='open')
  	GettingStartedPanel = new Spry.Widget.CollapsiblePanel("GettingStartedPanel", {contentIsOpen: true});
