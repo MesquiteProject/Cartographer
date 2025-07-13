@@ -12,7 +12,9 @@ GNU Lesser General Public License.  (http://www.gnu.org/copyleft/lesser.html)
  */
 package mesquite.cartographer.ExportToGoogleEarth;
 
-import java.awt.Checkbox;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -29,21 +31,29 @@ import mesquite.lib.MesquiteDouble;
 import mesquite.lib.MesquiteFile;
 import mesquite.lib.MesquiteInteger;
 import mesquite.lib.MesquiteMessage;
+import mesquite.lib.MesquiteModule;
 import mesquite.lib.MesquiteProject;
+import mesquite.lib.MesquiteString;
 import mesquite.lib.MesquiteStringBuffer;
 import mesquite.lib.Parser;
 import mesquite.lib.StringUtil;
 import mesquite.lib.duties.FileInterpreterI;
 import mesquite.lib.duties.OneTreeSource;
+import mesquite.lib.duties.TreeWindowMaker;
 import mesquite.lib.taxa.Taxa;
 import mesquite.lib.tree.MesquiteTree;
 import mesquite.lib.tree.Tree;
+import mesquite.lib.tree.TreeDisplay;
+import mesquite.lib.tree.TreeDrawing;
+import mesquite.lib.ui.ColorDistribution;
+import mesquite.lib.ui.ExtensibleDialog;
 import mesquite.lib.ui.ProgressIndicator;
+import mesquite.lib.ui.RadioButtons;
 import mesquite.lib.ui.SingleLineTextField;
 
 
 
-public class ExportToGoogleEarth extends FileInterpreterI implements ItemListener {
+public class ExportToGoogleEarth extends FileInterpreterI implements ItemListener, ActionListener {
 	boolean includeTree = false;
 	boolean squareTree = true;
 	boolean showSelected = false;
@@ -53,9 +63,12 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	boolean avoidThroughEarth = true;
 	boolean greatCircleBigSteps = false;
 	int maxHeight=1000000;
-	int unselectedBranchWidth = 3;
-	int selectedBranchWidth = 4;
+	int branchWidth = 4;
 	boolean includeTaxonNames = true;
+	int branchColorSpecs = useSpecifiedColors;
+	static int useSpecifiedColors=0;
+	static int useColorsInTreeWindow=1;
+	
 
 	String unselectedColor = "ff88ffff";
 	String selectedColor ="ff2255dd";
@@ -128,14 +141,14 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			includeTaxonNames = MesquiteBoolean.fromTrueFalseString(content);
 		else if ("maxHeight".equalsIgnoreCase(tag))
 			maxHeight = MesquiteInteger.fromString(content);
-		else if ("unselectedBranchWidth".equalsIgnoreCase(tag))
-			unselectedBranchWidth = MesquiteInteger.fromString(content);
-		else if ("selectedBranchWidth".equalsIgnoreCase(tag))
-			selectedBranchWidth = MesquiteInteger.fromString(content);
+		else if ("branchWidth".equalsIgnoreCase(tag))
+			branchWidth = MesquiteInteger.fromString(content);
 		else if ("unselectedColor".equalsIgnoreCase(tag))
 			unselectedColor = StringUtil.cleanXMLEscapeCharacters(content);
 		else if ("selectedColor".equalsIgnoreCase(tag))
 			selectedColor = StringUtil.cleanXMLEscapeCharacters(content);	
+		else if ("branchColorSpecs".equalsIgnoreCase(tag))
+					branchColorSpecs = MesquiteInteger.fromString(content);
 
 	}
 	/*.................................................................................................................*/
@@ -151,8 +164,8 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		StringUtil.appendXMLTag(buffer, 2, "greatCircleBigSteps", greatCircleBigSteps);  
 		StringUtil.appendXMLTag(buffer, 2, "includeTaxonNames", includeTaxonNames);  
 		StringUtil.appendXMLTag(buffer, 2, "maxHeight", maxHeight);  
-		StringUtil.appendXMLTag(buffer, 2, "unselectedBranchWidth", unselectedBranchWidth);  
-		StringUtil.appendXMLTag(buffer, 2, "selectedBranchWidth", selectedBranchWidth);  
+		StringUtil.appendXMLTag(buffer, 2, "branchWidth", branchWidth);  
+		StringUtil.appendXMLTag(buffer, 2, "branchColorSpecs", branchColorSpecs);  
 		StringUtil.appendXMLTag(buffer, 2, "unselectedColor", unselectedColor);  
 		StringUtil.appendXMLTag(buffer, 2, "selectedColor", selectedColor);  
 		return buffer.toString();
@@ -166,11 +179,37 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	Checkbox extrudeCheckbox;
 	Checkbox showSelectedCheckbox;
 	SingleLineTextField unselectedColorField;
-	IntegerField unselectedWidthField;
 	SingleLineTextField selectedColorField;
-	IntegerField selectedWidthField;
+	IntegerField branchWidthField;
 	IntegerField rootHeightField;
+	Button standardBranchColorsButton;
+	RadioButtons branchColorRadioOptions;
+	
+	/*.................................................................................................................*/
 
+	public void getStandardColorOptions (){
+		MesquiteInteger buttonPressed = new MesquiteInteger(1);
+		ExtensibleDialog dialog = new ExtensibleDialog(containerOfModule(), "Specified Color Options", buttonPressed);
+		String helpString = "The selected and unselected branch colors are each made up of exactly 8 hexadecimal digits, with the first 2 digits indicating transparency (with ff being fully opaque and 00 being fully transparent), ";
+		helpString += "and the remaining 6 digits indicating the color, with ffffff being white, and 000000 being black. For more details touch on the Help Link button.";
+		dialog.appendToHelpString(helpString);
+		dialog.setHelpURL(getPackageCanonicalDocsPath()+"googleEarth.html");
+
+		showSelectedCheckbox = dialog.addCheckBox("highlight selected branches", showSelected);
+		unselectedColorField = dialog.addTextField("Unselected branch color", unselectedColor, 12);
+		selectedColorField = dialog.addTextField("Selected branch color", selectedColor, 12);
+
+		dialog.completeAndShowDialog(true);
+
+		if (buttonPressed.getValue() == 0) {
+			showSelected  = showSelectedCheckbox.getState();
+			unselectedColor = unselectedColorField.getText();
+			selectedColor = selectedColorField.getText();
+		}
+
+		dialog.dispose();
+
+	}
 	/*.................................................................................................................*/
 
 	public boolean getExportOptions(boolean dataSelected, boolean taxaSelected){
@@ -178,26 +217,32 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		ExporterDialog exportDialog = new ExporterDialog(this,containerOfModule(), "Export To Google Earth Options", buttonPressed);
 		exportDialog.addLabel("Export taxon localities to Google Earth");
 		String helpString = "If 'include tree' is checked, Mesquite will draw a tree above the Earth in the Google Earth file, in a manner inspired by Bill Piel's work, using the options you choose. \n";
-		helpString += "The selected and unselected branch colors are each made up of exactly 8 hexadecimal digits, with the first 2 digits indicating transparency (with ff being fully opaque and 00 being fully transparent), ";
-		helpString += "and the remaining 6 digits indicating the color, with ffffff being white, and 000000 being black. For more details touch on the Help Link button.";
+		helpString += "For more details touch on the Help Link button.";
 		exportDialog.appendToHelpString(helpString);
 		exportDialog.setHelpURL(getPackageCanonicalDocsPath()+"googleEarth.html");
 
 
 		includeTreeCheckbox = exportDialog.addCheckBox("include a tree (a tree must be shown in a tree window)", includeTree);
 		includeTreeCheckbox.addItemListener(this);
+		exportDialog.addHorizontalLine(2);
 		squareTreeCheckbox = exportDialog.addCheckBox("square tree", squareTree);
 		phylogramCheckbox = exportDialog.addCheckBox("display with branches proportional to lengths if branch lengths available", phylogram);
 		terminalsOnGroundCheckbox = exportDialog.addCheckBox("place terminal taxa on ground", terminalsOnGround);
 		extrudeCheckbox = exportDialog.addCheckBox("show connection from ground to any terminals above ground", extrudeIcons);
-		showSelectedCheckbox = exportDialog.addCheckBox("highlight selected branches", showSelected);
-
-		unselectedColorField = exportDialog.addTextField("Unselected branch color", unselectedColor, 12);
-		unselectedWidthField = exportDialog.addIntegerField("Unselected branch width", unselectedBranchWidth, 6);
-		selectedColorField = exportDialog.addTextField("Selected branch color", selectedColor, 12);
-		selectedWidthField = exportDialog.addIntegerField("Selected branch width", selectedBranchWidth, 6);
 		rootHeightField = exportDialog.addIntegerField("Height of root (in meters)", maxHeight, 12);
+		exportDialog.addHorizontalLine(1);
+
 		
+		//showSelectedCheckbox = exportDialog.addCheckBox("highlight selected branches", showSelected);
+		//unselectedColorField = exportDialog.addTextField("Unselected branch color", unselectedColor, 12);
+		//selectedColorField = exportDialog.addTextField("Selected branch color", selectedColor, 12);
+		
+		branchColorRadioOptions = exportDialog.addRadioButtons(new String[] {"Use specified colors for branches", "Use branch colors shown in tree window"}, branchColorSpecs);
+		standardBranchColorsButton = exportDialog.addAListenedButton("Specified Color Options...",null, this);
+		standardBranchColorsButton.setActionCommand("standardColorOptions");
+		branchWidthField = exportDialog.addIntegerField("Branch width", branchWidth, 6);
+
+		exportDialog.addHorizontalLine(2);
 		Checkbox includeTaxonNamesBox = exportDialog.addCheckBox("include taxon names", includeTaxonNames);
 
 		checkEnabling();
@@ -209,22 +254,27 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		if (ok) {
 			includeTree = includeTreeCheckbox.getState();
 			squareTree = squareTreeCheckbox.getState();
-			showSelected  = showSelectedCheckbox.getState();
 			terminalsOnGround = terminalsOnGroundCheckbox.getState();
-			unselectedColor = unselectedColorField.getText();
-			selectedColor = selectedColorField.getText();
 			maxHeight = rootHeightField.getValue();
 			phylogram = phylogramCheckbox.getState();
-			unselectedBranchWidth = unselectedWidthField.getValue();
-			selectedBranchWidth = selectedWidthField.getValue();
+			branchWidth = branchWidthField.getValue();
 			extrudeIcons = extrudeCheckbox.getState();
 			includeTaxonNames = includeTaxonNamesBox.getState();
+			branchColorSpecs = branchColorRadioOptions.getValue();
 			storePreferences();
 		}
 
 		exportDialog.dispose();
 		return ok;
 	}	
+	/*.................................................................................................................*/
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equalsIgnoreCase("standardColorOptions")) {
+			getStandardColorOptions();
+
+		} 
+	}
+	/*.................................................................................................................*/
 
 	public void checkEnabling() {
 		if (includeTreeCheckbox!=null){
@@ -241,14 +291,16 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 				showSelectedCheckbox.setEnabled(treeIncluded);
 			if (unselectedColorField!=null)
 				unselectedColorField.setEnabled(treeIncluded);	
-			if (unselectedWidthField!=null)
-				unselectedWidthField.setEnabled(treeIncluded);
 			if (selectedColorField!=null)
 				selectedColorField.setEnabled(treeIncluded);
-			if (selectedWidthField!=null)
-				selectedWidthField.setEnabled(treeIncluded);
+			if (branchWidthField!=null)
+				branchWidthField.setEnabled(treeIncluded);
 			if (rootHeightField!=null)
 				rootHeightField.setEnabled(treeIncluded);
+			if (standardBranchColorsButton!=null)
+				standardBranchColorsButton.setEnabled(treeIncluded);
+			if (branchColorRadioOptions!=null)
+				branchColorRadioOptions.setEnabledCheckboxGroup(treeIncluded);
 		}
 	}
 	public void itemStateChanged(ItemEvent e) {
@@ -303,7 +355,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	ProgressIndicator progIndicator;
 	int nodeCount = 0;
 	/*.................................................................................................................*/
-	private void writeNodeCoordinates(StringBuffer outputBuffer, Tree tree, int node, GeographicData data, double[][] reconstructed, double rootHeight, double depthUnit, boolean useBranchLengths) {
+	private void writeNodeCoordinates(StringBuffer outputBuffer, MesquiteTree tree, int node, GeographicData data, double[][] reconstructed, double rootHeight, double depthUnit, boolean useBranchLengths) {
 		nodeCount++;
 		if (tree.nodeIsInternal(node)) { 
 			for (int daughter = tree.firstDaughterOfNode(node); tree.nodeExists(daughter); daughter = tree.nextSisterOfNode(daughter))
@@ -350,11 +402,18 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 					ancHeight = tree.deepestPath(tree.parentOfNode(node, 1))*1.0*depthUnit;
 				}
 
+				boolean hasColorsInTreeWindow = false;
+				if (branchColorSpecs==useColorsInTreeWindow)
+					hasColorsInTreeWindow = exportBranchStyle(outputBuffer, tree, node);
 				StringUtil.appendStartXMLTag(outputBuffer,1,"Placemark", true);
-				if (showSelected && tree.getSelected(node))
+				if (branchColorSpecs==useColorsInTreeWindow && hasColorsInTreeWindow) {
+					StringUtil.appendXMLTag(outputBuffer,2, "styleUrl", "#node"+node);
+				}
+				else if (showSelected && tree.getSelected(node))
 					StringUtil.appendXMLTag(outputBuffer,2, "styleUrl", "#selectedLine");
 				else
 					StringUtil.appendXMLTag(outputBuffer,2, "styleUrl", "#unselectedLine");
+				
 				StringUtil.appendStartXMLTag(outputBuffer,2,"LineString", true);
 				StringUtil.appendXMLTag(outputBuffer,3,"altitudeMode", "absolute");
 				StringUtil.appendStartXMLTag(outputBuffer,3,"coordinates", true);
@@ -380,7 +439,49 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	}
 
 	/*.................................................................................................................*/
-	private void writeTreeCoordinates(StringBuffer outputBuffer, Tree tree, GeographicData data) {
+	private void exportStandardStyles (StringBuffer outputBuffer, MesquiteTree tree) {
+		outputBuffer.append("\t<Style id=\"unselectedLine\">\n" );
+		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
+		StringUtil.appendXMLTag(outputBuffer,3,"color", unselectedColor);
+		StringUtil.appendXMLTag(outputBuffer,3,"width", ""+branchWidth);
+		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
+		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
+
+		outputBuffer.append("\t<Style id=\"selectedLine\">\n" );
+		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
+		StringUtil.appendXMLTag(outputBuffer,3,"color", selectedColor);
+		StringUtil.appendXMLTag(outputBuffer,3,"width", ""+branchWidth);
+		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
+		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
+		
+
+	}
+	/*.................................................................................................................*/
+	private boolean exportBranchStyle (StringBuffer outputBuffer, Tree tree, int node) {
+//		Color color = getBranchColor(node);
+		Color color=getBranchColor(node);
+		ColorDistribution colorDist = getBranchFillColors(node);
+		if (colorDist!=null) {
+			if (colorDist.getNumColors()==1)  
+				color=colorDist.getColor(0);   
+			else if (colorDist.getNumColors()>1)
+				color=Color.lightGray;
+		}
+		
+		if (color!=null) {
+			outputBuffer.append("\t<Style id=\"node"+node+"\">\n" );
+			StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
+			String hexColor = String.format("ff%02X%02X%02X", color.getBlue(), color.getGreen(), color.getRed());   //DRM: why is this reversed???  DAVIDQUERY WAYNEQUERY 
+			StringUtil.appendXMLTag(outputBuffer,3,"color", hexColor);
+			StringUtil.appendXMLTag(outputBuffer,3,"width", ""+branchWidth);
+			StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
+			StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
+			return true;
+		}
+		return false;
+	}
+	/*.................................................................................................................*/
+	private void writeTreeCoordinates(StringBuffer outputBuffer, MesquiteTree tree, GeographicData data) {
 		GreatCircleReconstructor reconstructor = new GreatCircleReconstructor();
 		// ................  get raw long lats and put into arrays ........
 		double[][] originalCoordinates = new double[2][tree.getNumNodeSpaces()];
@@ -414,19 +515,6 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		double unit = 1.0*maxHeight/depth;
 
 
-		outputBuffer.append("\t<Style id=\"unselectedLine\">\n" );
-		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
-		StringUtil.appendXMLTag(outputBuffer,3,"color", unselectedColor);
-		StringUtil.appendXMLTag(outputBuffer,3,"width", ""+unselectedBranchWidth);
-		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
-		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
-
-		outputBuffer.append("\t<Style id=\"selectedLine\">\n" );
-		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
-		StringUtil.appendXMLTag(outputBuffer,3,"color", selectedColor);
-		StringUtil.appendXMLTag(outputBuffer,3,"width", ""+selectedBranchWidth);
-		StringUtil.appendEndXMLTag(outputBuffer,2,"LineStyle");
-		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
 
 /*		outputBuffer.append("\t<Style id=\"thinGreyLine\">\n" );
 		StringUtil.appendStartXMLTag(outputBuffer,2,"LineStyle", true);
@@ -463,8 +551,33 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		}
 
 	}
+	TreeDrawing treeDrawing = null;
+	int drawnRoot = -1;
 	/*.................................................................................................................*/
-	public boolean exportFile(MesquiteFile file, String arguments) { //if file is null, consider whole project open to export
+	private boolean hasBranchColors() {
+		if (treeDrawing != null)
+			return treeDrawing.recordsBranchColors();
+		return false;
+	}
+	/*.................................................................................................................*/
+	private Color getBranchColor(int node) {
+		if (treeDrawing != null)
+			if (treeDrawing.recordsBranchColors()){
+				return treeDrawing.getBranchColor(node);
+			}	
+		return null;
+	}
+	/*.................................................................................................................*/
+	private ColorDistribution getBranchFillColors(int node) {
+		if (treeDrawing != null)
+			if (treeDrawing.recordsBranchColors()){
+				return treeDrawing.getBranchFillColors(node);
+			}					
+		return null;
+	}
+	/*.................................................................................................................*/
+	//if file is null, consider whole project open to export
+	public boolean exportFile(MesquiteFile file, String arguments) {
 		Arguments args = new Arguments(new Parser(arguments), true);
 		boolean usePrevious = args.parameterExists("usePrevious");
 		GeographicData data = (GeographicData)getProject().chooseData(containerOfModule(), file, null, GeographicState.class, "Select data to export");
@@ -488,6 +601,15 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 				MesquiteTree origtree = (MesquiteTree)treeTask.getTree(taxa);
 				tree = origtree.cloneTree();
 				removeEmptyTerminals(tree,taxa, data);
+				MesquiteModule module = (MesquiteModule)treeTask.getImmediateSource();
+				if (module instanceof TreeWindowMaker){
+					TreeDisplay treeDisplay = ((TreeWindowMaker)module).getTreeDisplay();
+					if (treeDisplay != null) {
+						treeDrawing = treeDisplay.getTreeDrawing();
+						if (treeDrawing!=null) 
+							drawnRoot = treeDrawing.getDrawnRoot();
+					}
+				}
 			}
 			if (tree==null) {
 				includeTree = false;
@@ -512,6 +634,7 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		//		StringUtil.appendXMLTag(outputBuffer,1,"visibility", 0);
 		StringUtil.appendXMLTag(outputBuffer,1,"open", 1);
 		//		exportStyles(outputBuffer);
+		exportStandardStyles(outputBuffer, tree);
 
 		for (int it = 0; it<numTaxa; it++){
 			if ((!writeOnlySelectedTaxa || (taxa.getSelected(it))) && data.hasDataForTaxon(it) && (!includeTree || tree.taxonInTree(it))){
