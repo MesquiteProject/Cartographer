@@ -72,6 +72,11 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 
 	String unselectedColor = "ff88ffff";
 	String selectedColor ="ff2255dd";
+	
+//	static String baseIconURL = "https://dmaddison.github.io/DRMStorage/icons/";
+//	static String baseIconURL = "https://mesquiteproject.github.io/Cartographer/icons/";
+	static String baseIconURL = "/Users/david/Documents/Mesquite_Workspace/Cartographer/docs/icons/";
+	static String iconName = "yellowCircle";
 
 
 
@@ -481,6 +486,42 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		return false;
 	}
 	/*.................................................................................................................*/
+	private void exportSymbolStyle (StringBuffer outputBuffer, String iconName) {
+//		Color color = getBranchColor(node);
+		outputBuffer.append("\t<Style id=\""+iconName+"Normal\">\n" );
+		StringUtil.appendStartXMLTag(outputBuffer,2,"IconStyle", true);
+//		StringUtil.appendXMLTag(outputBuffer,3,"scale", "5");
+		StringUtil.appendStartXMLTag(outputBuffer,3,"Icon");
+		StringUtil.appendXMLTag(outputBuffer,3,"href", baseIconURL+iconName+".png");
+		StringUtil.appendEndXMLTag(outputBuffer,3,"Icon");
+		StringUtil.appendEndXMLTag(outputBuffer,2,"IconStyle");
+
+        
+        StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
+		outputBuffer.append("\t<Style id=\""+iconName+"Highlight\">\n" );
+		StringUtil.appendStartXMLTag(outputBuffer,2,"IconStyle", true);
+		StringUtil.appendStartXMLTag(outputBuffer,3,"Icon");
+		StringUtil.appendXMLTag(outputBuffer,3,"href", baseIconURL+iconName+"Highlight.png");
+		StringUtil.appendEndXMLTag(outputBuffer,3,"Icon");
+		StringUtil.appendEndXMLTag(outputBuffer,2,"IconStyle");
+		StringUtil.appendEndXMLTag(outputBuffer,1,"Style");
+		
+		outputBuffer.append("\t<StyleMap id=\""+iconName+"\">\n" );
+		StringUtil.appendStartXMLTag(outputBuffer,2,"Pair", true);
+		StringUtil.appendXMLTag(outputBuffer,3,"key", "normal");
+		StringUtil.appendXMLTag(outputBuffer,3,"styleUrl", "#"+iconName+"Normal");
+		StringUtil.appendEndXMLTag(outputBuffer,2,"Pair");
+		StringUtil.appendStartXMLTag(outputBuffer,2,"Pair", true);
+		StringUtil.appendXMLTag(outputBuffer,3,"key", "highlight");
+		StringUtil.appendXMLTag(outputBuffer,3,"styleUrl", "#"+iconName+"Highlight");
+		StringUtil.appendEndXMLTag(outputBuffer,2,"Pair");
+		StringUtil.appendEndXMLTag(outputBuffer,1,"StyleMap");
+
+		//	<styleUrl>#yellowStarLarge</styleUrl>
+		
+
+	}
+	/*.................................................................................................................*/
 	private void writeTreeCoordinates(StringBuffer outputBuffer, MesquiteTree tree, GeographicData data) {
 		GreatCircleReconstructor reconstructor = new GreatCircleReconstructor();
 		// ................  get raw long lats and put into arrays ........
@@ -635,10 +676,14 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 		StringUtil.appendXMLTag(outputBuffer,1,"open", 1);
 		//		exportStyles(outputBuffer);
 		exportStandardStyles(outputBuffer, tree);
-
+		exportSymbolStyle(outputBuffer, iconName);
+		
+		
 		for (int it = 0; it<numTaxa; it++){
 			if ((!writeOnlySelectedTaxa || (taxa.getSelected(it))) && data.hasDataForTaxon(it) && (!includeTree || tree.taxonInTree(it))){
 				StringUtil.appendStartXMLTag(outputBuffer,1,"Placemark", true);
+				StringUtil.appendXMLTag(outputBuffer,3,"styleUrl", "#" + iconName);
+
 				if (includeTaxonNames)
 					StringUtil.appendXMLTag(outputBuffer,2,"name", taxa.getTaxonName(it));
 				//				StringUtil.appendXMLTag(outputBuffer,2,"styleUrl", "#cyan");
