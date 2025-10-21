@@ -73,9 +73,11 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 	String unselectedColor = "ff88ffff";
 	String selectedColor ="ff2255dd";
 	
-//	static String baseIconURL = "https://dmaddison.github.io/DRMStorage/icons/";
-//	static String baseIconURL = "https://mesquiteproject.github.io/Cartographer/icons/";
-	static String baseIconURL = "/Users/david/Documents/Mesquite_Workspace/Cartographer/docs/icons/";
+	
+//	static String baseIconURL = "https://github.com/MesquiteProject/Cartographer/blob/development/docs/icons/";
+//	static String baseIconURL = "/Users/david/Documents/Mesquite_Workspace/Cartographer/docs/icons/";
+
+	static String baseIconURL = "https://cartographer.mesquiteproject.org/icons/";
 	static String iconName = "yellowCircle";
 
 
