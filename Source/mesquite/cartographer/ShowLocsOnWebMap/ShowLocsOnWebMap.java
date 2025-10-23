@@ -23,7 +23,6 @@ import mesquite.lib.characters.CharacterData;
 import mesquite.cont.lib.GeogDataSearcher;
 import mesquite.lib.duties.DataWindowAssistantI;
 import mesquite.lib.table.MesquiteTable;
-import mesquite.lib.ui.MesquiteSubmenuSpec;
 
 /* ======================================================================== */
 public class ShowLocsOnWebMap extends DataWindowAssistantI {
@@ -35,6 +34,7 @@ public class ShowLocsOnWebMap extends DataWindowAssistantI {
 	CharacterData data;
 	/*.................................................................................................................*/
 	public boolean startJob(String arguments, Object condition, boolean hiredByName) {
+ 		System.err.println("@ startJob");
 		addMenuItem("Show Selected Locality on Map on Web...", makeCommand("doSearch",  this));
 		return true;
 	}
