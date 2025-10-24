@@ -41,8 +41,8 @@
     <td width="51%"><img src="images/cartographerBanner.jpg" width="395" height="110" /></td>
     <td width="33%" align="right"><div id="subtitle"><!-- InstanceBeginEditable name="subtitle" -->Google Earth<!-- InstanceEndEditable --></div></td>
     <td width="2%">&nbsp;</td>
-    <td width="14%">Version 1.71<br />
-      9 July 2025<br /></td>
+    <td width="14%">Version 1.80<br />
+      24 October 2025<br /></td>
   </tr>
 </table>
 
@@ -135,7 +135,10 @@ You can either choose to display only the individual latitude-longitude points:<
 The ancestral locations should thus not necessarily be considered biogeographically meaningful - they are drawn where they are primarily for aesthetic reasons.</font></P>
 <P><font face="Trebuchet MS">For points far-separated on the Earth, Cartographer draws lines on the Great Circle that joins those points, as shown in the following image:</font></P>
 <P align="center"><img src="images/greatCircle.jpg" width="645" height="300"></P>
-<P>When you choose Export To Google Earth, here are the options you will be presented with:</P><div align="center"><img src="images/googleEarth1.png" width="494" height="558" alt=""/></div></P>
+<P>When you choose Export To Google Earth, here are the options you will be presented with:</P><div align="center">
+  <p><img src="images/exportGoogleEarth.png" width="545" height="546" alt=""/></p>
+  <p>&nbsp;</p>
+</div></P>
 <P>&nbsp;</P>
 <P>You  have the options to do the following:</P>
 <ul> <ul> <li>include a tree in the Google Earth display</li>
@@ -148,12 +151,17 @@ The tree shown immediately above has the terminal taxa on the ground.</li>
 <li>if the terminal taxa are above the ground, then you have the option of showing a connecting from the ground to any above-ground terminal taxa. 
 The image on the left shows a tree with those connections; the image on the right shows a tree without those connections:<br>
 <img src="images/extrude.jpg" width="420" height="400"> <img src="images/noExtrude.jpg" width="420" height="400"> </li>
-<li>show any selected branches in a different color (e.g., the orange branches in some of the above figures)</li>
-<li>adjust the colors of the unselected and selected branches. The branch colors are to be entered as 8-digit hexadecimal numbers. 
-The first two digits are the transparency setting, with &quot;ff&quot; being fully opaque, and &quot;00&quot; being fully transparent.
-The next six digits are the color, in  web format. &quot;ffffff&quot; is while, &quot;000000&quot; is black, ff0000 is blue, 00ff00 is green, and 0000ff is red. 
-Thus, 7700ffff is a partly transparent yellow.</li>
+<li>color the branches either:
+  <ul>
+    <li>as specified using the Specified Color Options button, which allows you to adjust the colors of the unselected and selected branches. The branch colors are to be entered as 8-digit hexadecimal numbers. 
+  The first two digits are the transparency setting, with &quot;ff&quot; being fully opaque, and &quot;00&quot; being fully transparent.
+  The next six digits are the color, in  web format. &quot;ffffff&quot; is while, &quot;000000&quot; is black, ff0000 is blue, 00ff00 is green, and 0000ff is red. 
+  Thus, 7700ffff is a partly transparent yellow.</li>
+    <li>using the same colors as shown in the tree window. </li>
+  </ul>
+</li>
 <li>adjust the width, in pixels, of unselected and selected branches.</li>
+<li>include or not include the taxon names.</li>
 <li>change the height of the root node above the Earth.<font face="Trebuchet MS"></font></li></ul></ul>
 <font face="Trebuchet MS"><P>&nbsp;</P>
 </font>
