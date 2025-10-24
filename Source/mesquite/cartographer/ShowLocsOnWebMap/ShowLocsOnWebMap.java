@@ -34,7 +34,6 @@ public class ShowLocsOnWebMap extends DataWindowAssistantI {
 	CharacterData data;
 	/*.................................................................................................................*/
 	public boolean startJob(String arguments, Object condition, boolean hiredByName) {
- 		System.err.println("@ startJob");
 		addMenuItem("Show Selected Locality on Map on Web...", makeCommand("doSearch",  this));
 		return true;
 	}
