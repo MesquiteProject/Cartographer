@@ -60,11 +60,9 @@ public class ShowLocsOnWebMap extends DataWindowAssistantI {
 	/*.................................................................................................................*/
     	 public Object doCommand(String commandName, String arguments, CommandChecker checker) {
     	 	if (checker.compare(this.getClass(), "Chooses the module to search for sequences", "[name of module]", commandName, "doSearch")) {
-    	 		System.err.println("@ doSEARCH");
    	 		if (table!=null && data !=null){
    	 		GeogDataSearcher tda= (GeogDataSearcher)hireEmployee(GeogDataSearcher.class, "How to show localities on web");
 				if (tda!=null) {
-	    	 		System.err.println("@ tda" + tda);
 					boolean a = tda.searchData(data, table);
 	 	   			if (a) {
 	 	   				table.repaintAll();
