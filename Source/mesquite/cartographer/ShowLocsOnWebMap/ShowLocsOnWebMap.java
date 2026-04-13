@@ -63,7 +63,7 @@ public class ShowLocsOnWebMap extends DataWindowAssistantI {
    	 		if (table!=null && data !=null){
    	 		GeogDataSearcher tda= (GeogDataSearcher)hireEmployee(GeogDataSearcher.class, "How to show localities on web");
 				if (tda!=null) {
-					boolean a = tda.searchData(data, table);
+					boolean a = tda.searchData(data, table, false);
 	 	   			if (a) {
 	 	   				table.repaintAll();
 						data.notifyListeners(this, new Notification(MesquiteListener.DATA_CHANGED));
