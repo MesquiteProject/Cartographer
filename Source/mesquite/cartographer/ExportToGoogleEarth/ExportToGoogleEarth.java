@@ -642,15 +642,17 @@ public class ExportToGoogleEarth extends FileInterpreterI implements ItemListene
 			if (treeTask != null) {
 				treeTask.initialize(taxa);
 				MesquiteTree origtree = (MesquiteTree)treeTask.getTree(taxa);
-				tree = origtree.cloneTree();
-				removeEmptyTerminals(tree,taxa, data);
-				MesquiteModule module = (MesquiteModule)treeTask.getImmediateSource();
-				if (module instanceof TreeWindowMaker){
-					TreeDisplay treeDisplay = ((TreeWindowMaker)module).getTreeDisplay();
-					if (treeDisplay != null) {
-						treeDrawing = treeDisplay.getTreeDrawing();
-						if (treeDrawing!=null) 
-							drawnRoot = treeDrawing.getDrawnRoot();
+				if (origtree!=null) {
+					tree = origtree.cloneTree();
+					removeEmptyTerminals(tree,taxa, data);
+					MesquiteModule module = (MesquiteModule)treeTask.getImmediateSource();
+					if (module instanceof TreeWindowMaker){
+						TreeDisplay treeDisplay = ((TreeWindowMaker)module).getTreeDisplay();
+						if (treeDisplay != null) {
+							treeDrawing = treeDisplay.getTreeDrawing();
+							if (treeDrawing!=null) 
+								drawnRoot = treeDrawing.getDrawnRoot();
+						}
 					}
 				}
 			}
