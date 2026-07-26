@@ -94,6 +94,7 @@ public class CalibrationPoint {
 	/*.................................................................................................................*/
 	public void drawPoint(Graphics g, int margin) {
 		g.setColor(Color.cyan);
+		//CARTCHANGE CARTRESCALE why does this seem to assume always scale to fit?
 		int X = (int)(x.getDoubleValue()*projectionTask.getRescaleValue())+margin;
 		int Y = (int)(y.getDoubleValue()*projectionTask.getRescaleValue())+margin;
 		g.drawLine(X-crossSize,Y-1,X+crossSize,Y-1);

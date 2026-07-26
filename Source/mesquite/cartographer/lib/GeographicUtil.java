@@ -2,9 +2,17 @@ package mesquite.cartographer.lib;
 
 import mesquite.cont.lib.GeographicData;
 import mesquite.lib.MesquiteDouble;
+import mesquite.lib.NameReference;
 
 
 public class GeographicUtil {
+	
+	//CARTCHANGE this doesn't seemlike the right place
+	public static NameReference uncertainIDNR = NameReference.getNameReference("LocRecordUncertainID");
+	public static NameReference typeLocNR = NameReference.getNameReference("LocRecordTypeLoc");
+	public static NameReference literatureRecordNR = NameReference.getNameReference("LocRecordLiterature");
+	
+
 	
 	public static double getGreatCircleDistance(boolean useKm, double longitude1, double longitude2, double latitude1, double latitude2){
 		double radius;
@@ -28,7 +36,6 @@ public class GeographicUtil {
 	}	
 	
 	public static double mod (double y, double x) {	
-		int intPart= (int)( y/x);
 		double value=y - x * ((int)(y/x));
 		if ( value < 0) value = value + x;
 		return value;
